@@ -4,7 +4,7 @@ import GlobalStyle from './GlobalStyle';
 import Home from './components/screens/Home';
 import SignIn from './components/screens/SignIn';
 import SignUp from './components/screens/SignUp';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
@@ -17,6 +17,7 @@ function App() {
           <Route exact path="/signup" component={SignUp} />
         </Switch>
       </Router>
+      <Toaster position="bottom-center" />
     </React.Fragment>
   );
 }

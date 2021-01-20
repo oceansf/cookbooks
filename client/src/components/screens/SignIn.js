@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 const Container = styled.div`
   height: 100vh;
@@ -11,7 +11,7 @@ const Container = styled.div`
 `;
 
 const Card = styled.div`
-  width: 50%;
+  width: 25%;
   padding: 2rem;
   display: flex;
   flex-direction: column;
@@ -97,9 +97,7 @@ const SignIn = () => {
           localStorage.setItem('user', JSON.stringify(data.user));
           //  dispatch({type:"USER",payload:data.user})
           toast.success('Signed in successfully');
-          setTimeout(() => {
-            history.push('/');
-          }, 1500);
+          history.push('/');
         }
       })
       .catch(err => {
@@ -133,7 +131,6 @@ const SignIn = () => {
           Don't have an account? <Link to="/signup">Sign up here.</Link>
         </p>
       </Card>
-      <Toaster position="bottom-center" />
     </Container>
   );
 };

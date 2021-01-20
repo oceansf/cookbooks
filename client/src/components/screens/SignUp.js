@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 const Container = styled.div`
   height: 100vh;
@@ -11,7 +11,7 @@ const Container = styled.div`
 `;
 
 const Card = styled.div`
-  width: 50%;
+  width: 30%;
   padding: 2rem;
   display: flex;
   flex-direction: column;
@@ -83,7 +83,7 @@ const SignUp = () => {
         email
       )
     ) {
-      toast.error('invalid email format');
+      toast.error('Invalid email format');
       return;
     }
     fetch('/signup', {
@@ -103,9 +103,7 @@ const SignUp = () => {
           toast.error(data.error);
         } else {
           toast.success(data.message);
-          setTimeout(() => {
-            history.push('/signin');
-          }, 1000);
+          history.push('/signin');
         }
       })
       .catch(err => {
@@ -151,7 +149,6 @@ const SignUp = () => {
           Already have an account? <Link to="/signin">Sign in here.</Link>
         </p>
       </Card>
-      <Toaster position="bottom-center" />
     </Container>
   );
 };
