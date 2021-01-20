@@ -4,6 +4,7 @@ import GlobalStyle from './GlobalStyle';
 import Home from './components/screens/Home';
 import SignIn from './components/screens/SignIn';
 import SignUp from './components/screens/SignUp';
+import toast, { Toaster } from 'react-hot-toast';
 
 function App() {
   return (

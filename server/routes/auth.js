@@ -33,7 +33,7 @@ router.post('/signup', (req, res) => {
           //     subject:"signup success",
           //     html:"<h1>welcome to instagram</h1>"
           // })
-          res.json({ message: 'saved successfully' });
+          res.json({ message: 'account created' });
         })
         .catch(err => {
           console.log(err);

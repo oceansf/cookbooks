@@ -8,6 +8,11 @@ const GlobalStyle = createGlobalStyle`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-family: 'Pacifico', cursive;
+  margin: 0;
+}
+
+p {
+  font-weight: 500;
 }
 `;
 
