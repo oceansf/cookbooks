@@ -1,12 +1,21 @@
 import React from 'react';
+import styled from 'styled-components';
 import Nav from '../Nav';
+import Post from '../Post';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const Home = () => {
   return (
-    <div>
+    <Container>
       <Nav />
-      <h1>Home Page</h1>
-    </div>
+      <Post />
+      <Post />
+    </Container>
   );
 };
 

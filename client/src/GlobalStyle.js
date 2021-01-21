@@ -9,24 +9,20 @@ const GlobalStyle = createGlobalStyle`
   -webkit-text-fill-color: transparent;
   font-family: 'Pacifico', cursive;
   margin: 0;
-}
+  }
 
-h2 {
-  font-size: 2rem;
-  background: -webkit-linear-gradient(#FDFC47, #24FE41);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-family: 'Pacifico', cursive;
-  margin: 0;
-}
+  h2 {
+    font-size: 2rem;
+    background: -webkit-linear-gradient(#FDFC47, #24FE41);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Pacifico', cursive;
+    margin: 0;
+  }
 
-h4 {
-  margin: 0
-}
-
-p {
-  font-weight: 500;
-}
+  h3, h4 {
+    margin: 0;
+  }
 `;
 
 export default GlobalStyle;

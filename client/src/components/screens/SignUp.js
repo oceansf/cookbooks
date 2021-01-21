@@ -11,7 +11,7 @@ const Container = styled.div`
 `;
 
 const Card = styled.div`
-  width: 30%;
+  width: 544px;
   padding: 2rem;
   display: flex;
   flex-direction: column;
