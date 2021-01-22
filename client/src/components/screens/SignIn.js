@@ -38,28 +38,18 @@ const Form = styled.form`
 const Input = styled.input`
   width: 80%;
   background-color: #fafafa;
-  border: none;
   border-radius: 5px;
-  :focus {
-    outline: none;
-  }
-  padding: 1rem;
   margin-bottom: 0.5rem;
 `;
 
 const Button = styled.button`
   width: 50%;
-  border: none;
   border-radius: 5px;
   color: white;
   font-weight: bold;
   background: #24fe41;
   padding: 0.5rem 1rem;
   margin-top: 0.5rem;
-  cursor: pointer;
-  :focus {
-    outline: none;
-  }
 `;
 
 const SignIn = () => {

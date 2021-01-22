@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 
 const Card = styled.div`
@@ -50,18 +50,8 @@ const CardButtons = styled.div`
   align-items: center;
 `;
 
-const StarButton = styled.button`
-  border: none;
-  background: none;
-  cursor: pointer;
-  :focus {
-    outline: none;
-  }
-  padding: 0;
-`;
-
 const StarIcon = styled.i`
-  color: darkgrey;
+  color: ${props => props.liked ? 'gold' : 'darkgrey'};
   transition: all 0.3s ease;
   :hover {
     color: gold;
@@ -69,13 +59,8 @@ const StarIcon = styled.i`
 `;
 
 const ViewRecipeButton = styled.button`
-  border: none;
   background: #24fe41;
   color: white;
-  cursor: pointer;
-  :focus {
-    outline: none;
-  }
   font-weight: 600;
   padding: 0.5rem 1rem;
   border-radius: 5px;
@@ -89,28 +74,19 @@ const CommentForm = styled.form`
 
 const CommentInput = styled.input`
   width: 80%;
-  background-color: #fafafa;
-  border: none;
   border-radius: 100px;
-  :focus {
-    outline: none;
-  }
-  padding: 1rem;
+  background-color: #fafafa;
   margin-right: 0.5rem;
 `;
 
-const PostCommentButton = styled.div`
-  border: none;
-  background: none;
+const PostCommentButton = styled.button`
   color: #24fe41;
-  cursor: pointer;
-  :focus {
-    outline: none;
-  }
-  font-weight: 600;
+  font-weight: bold;
 `;
 
 const Post = () => {
+  const [liked, setLiked] = useState(false);
+
   return (
     <Card>
       <CardHeader>
@@ -125,10 +101,10 @@ const Post = () => {
         <CardBody>
           <CardButtons>
             <div>
-              <StarButton>
-                <StarIcon className="far fa-star fa-2x" />
+              <button onClick={() => setLiked(!liked)}>
+                {liked ? <StarIcon className="fas fa-star fa-2x" liked={liked} /> : <StarIcon className="far fa-star fa-2x" />}
                 <span style={{ fontSize: '1rem' }}> 10 Stars</span>
-              </StarButton>
+              </button>
             </div>
             <ViewRecipeButton>View Recipe</ViewRecipeButton>
           </CardButtons>
@@ -144,7 +120,7 @@ const Post = () => {
           </p>
           <CommentForm>
             <CommentInput type="text" placeholder="Add comment..." />
-            <PostCommentButton>POST</PostCommentButton>
+            <PostCommentButton type="submit">POST</PostCommentButton>
           </CommentForm>
         </CardBody>
       </CardContent>
