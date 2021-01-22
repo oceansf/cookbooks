@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import useWindowSize from '../hooks/useWindowSize';
 import { Squash as Hamburger } from 'hamburger-react';
 
-const Container = styled.div`
+const Navbar = styled.nav`
   width: 100%;
   box-shadow: 0px 4px 26px 0px rgba(0, 0, 0, 0.05);
   display: flex;
@@ -59,13 +59,13 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const Nav = () => {
+const Nav = ({ sticky }) => {
   const size = useWindowSize();
 
   const [isOpen, setOpen] = useState(false);
 
   return (
-    <Container>
+    <Navbar>
       <Wrapper>
         <LogoLink to="/">
           <h2>Cookbooks</h2>
@@ -86,7 +86,7 @@ const Nav = () => {
           </LinkList>
         )}
       </Wrapper>
-    </Container>
+    </Navbar>
   );
 };
 

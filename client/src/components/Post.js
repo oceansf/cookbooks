@@ -24,10 +24,12 @@ const CardContent = styled.div`
   flex-direction: column;
 `;
 
-const ProfileIcon = styled.img`
-  width: 32px;
-  height: 32px;
+const ProfileIcon = styled.i`
   margin-right: 1rem;
+  border: 3px solid #24fe41;
+  border-radius: 100px;
+  padding: 2px;
+  color: darkgrey;
 `;
 
 const CardImage = styled.img`
@@ -74,13 +76,15 @@ const ViewRecipeButton = styled.button`
   :focus {
     outline: none;
   }
-  ${'' /* font-weight: 600; */}
+  font-weight: 600;
   padding: 0.5rem 1rem;
   border-radius: 5px;
 `;
 
 const CommentForm = styled.form`
   display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 `;
 
 const CommentInput = styled.input`
@@ -95,7 +99,7 @@ const CommentInput = styled.input`
   margin-right: 0.5rem;
 `;
 
-const AddCommentButton = styled.button`
+const PostCommentButton = styled.div`
   border: none;
   background: none;
   color: #24fe41;
@@ -103,16 +107,14 @@ const AddCommentButton = styled.button`
   :focus {
     outline: none;
   }
+  font-weight: 600;
 `;
 
 const Post = () => {
   return (
     <Card>
       <CardHeader>
-        <ProfileIcon
-          src="https://cdn.onlinewebfonts.com/svg/img_191958.png"
-          alt="profile-icon"
-        />
+        <ProfileIcon className="fas fa-user-circle fa-2x"></ProfileIcon>
         <div>
           <h3>Post Title</h3>
           <h4>Post Author</h4>
@@ -142,9 +144,7 @@ const Post = () => {
           </p>
           <CommentForm>
             <CommentInput type="text" placeholder="Add comment..." />
-            <AddCommentButton type="submit">
-              <i className="fas fa-plus-circle fa-3x"></i>
-            </AddCommentButton>
+            <PostCommentButton>POST</PostCommentButton>
           </CommentForm>
         </CardBody>
       </CardContent>

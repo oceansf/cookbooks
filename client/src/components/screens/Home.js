@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import useWindowSize from '../../hooks/useWindowSize';
 import Nav from '../Nav';
+import MobileNav from '../MobileNav';
 import Post from '../Post';
 
 const Container = styled.div`
@@ -10,12 +12,17 @@ const Container = styled.div`
 `;
 
 const Home = () => {
+  const size = useWindowSize();
+
   return (
-    <Container>
+    <React.Fragment>
       <Nav />
-      <Post />
-      <Post />
-    </Container>
+      <Container>
+        <Post />
+        <Post />
+      </Container>
+      {size.width <= 600 ? <MobileNav /> : null}
+    </React.Fragment>
   );
 };
 
