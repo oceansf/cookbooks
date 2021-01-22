@@ -50,12 +50,18 @@ const CardButtons = styled.div`
   align-items: center;
 `;
 
+const StarButton = styled.button`
+  display: flex;
+  align-items: center;
+`;
+
 const StarIcon = styled.i`
   color: ${props => props.liked ? 'gold' : 'darkgrey'};
   transition: all 0.3s ease;
   :hover {
     color: gold;
   }
+  margin-right: 0.2rem;
 `;
 
 const ViewRecipeButton = styled.button`
@@ -101,10 +107,10 @@ const Post = () => {
         <CardBody>
           <CardButtons>
             <div>
-              <button onClick={() => setLiked(!liked)}>
+              <StarButton onClick={() => setLiked(!liked)}>
                 {liked ? <StarIcon className="fas fa-star fa-2x" liked={liked} /> : <StarIcon className="far fa-star fa-2x" />}
                 <span style={{ fontSize: '1rem' }}> 10 Stars</span>
-              </button>
+              </StarButton>
             </div>
             <ViewRecipeButton>View Recipe</ViewRecipeButton>
           </CardButtons>

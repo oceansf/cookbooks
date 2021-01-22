@@ -37,6 +37,15 @@ const LogoLink = styled(Link)`
   }
 `;
 
+const Logo = styled.h2`
+    font-size: 2rem;
+    background: -webkit-linear-gradient(#FDFC47, #24FE41);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Pacifico', cursive;
+    margin: 0;
+`;
+
 const LinkList = styled.div`
   display: flex;
 `;
@@ -47,19 +56,18 @@ const StyledLink = styled(Link)`
   color: black;
   transition: all 0.3s ease;
 
-  &:focus,
-  &:hover {
+  :focus,
+  :hover {
     color: #24fe41;
   }
-  ,
-  &:visited,
-  &:link,
-  &:active {
+  :visited,
+  :link,
+  :active {
     text-decoration: none;
   }
 `;
 
-const Nav = ({ sticky }) => {
+const Nav = () => {
   const size = useWindowSize();
 
   const [isOpen, setOpen] = useState(false);
@@ -68,7 +76,7 @@ const Nav = ({ sticky }) => {
     <Navbar>
       <Wrapper>
         <LogoLink to="/">
-          <h2>Cookbooks</h2>
+          <Logo>Cookbooks</Logo>
         </LogoLink>
         {size.width <= 600 ? (
           <Hamburger toggled={isOpen} toggle={setOpen} size={20} />
