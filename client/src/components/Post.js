@@ -90,7 +90,7 @@ const PostCommentButton = styled.button`
   font-weight: bold;
 `;
 
-const Post = () => {
+const Post = ({title, author, body}) => {
   const [liked, setLiked] = useState(false);
 
   return (
@@ -98,7 +98,7 @@ const Post = () => {
       <CardHeader>
         <ProfileIcon className="fas fa-user-circle fa-2x"></ProfileIcon>
         <div>
-          <h3>Post Title</h3>
+          <h3>{title}</h3>
           <h4>Post Author</h4>
         </div>
       </CardHeader>
@@ -106,7 +106,7 @@ const Post = () => {
         <CardImage src="https://i.redd.it/ouaadpt068p01.jpg" alt="steak" />
         <CardBody>
           <CardButtons>
-            <div>
+            <div style={{margin: '0.5rem 0'}}>
               <StarButton onClick={() => setLiked(!liked)}>
                 {liked ? <StarIcon className="fas fa-star fa-2x" liked={liked} /> : <StarIcon className="far fa-star fa-2x" />}
                 <span style={{ fontSize: '1rem' }}> 10 Stars</span>
@@ -115,7 +115,7 @@ const Post = () => {
             <ViewRecipeButton>View Recipe</ViewRecipeButton>
           </CardButtons>
           <p>
-            <span style={{ fontWeight: '600' }}>Post Author</span> Body Content
+            <span style={{ fontWeight: '600' }}>{author}</span> {body}
           </p>
           <h4 style={{ color: 'grey' }}>Comments</h4>
           <p>

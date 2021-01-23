@@ -11,7 +11,6 @@ const ProfileWrapper = styled.div`
 `;
 
 const ProfileHeader = styled.div`
-  /* background-color: red; */
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -47,6 +46,8 @@ const ProfileStats = styled.section`
 
 const Gallery = styled.div`
   display: flex;
+  justify-items: center;
+  width: 100%;
   `;
 
 const GalleryColumn = styled.div `

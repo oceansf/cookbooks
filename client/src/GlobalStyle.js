@@ -13,6 +13,7 @@ const GlobalStyle = createGlobalStyle`
 
   h2, h3, h4 {
     margin: 0;
+    font-weight: 400;
     /* padding: 0 1rem; */
   }
 
@@ -32,6 +33,10 @@ const GlobalStyle = createGlobalStyle`
     :focus {
     outline: none;
     }
+  }
+
+  p {
+    margin: 0.5rem 0;
   }
 
 `;

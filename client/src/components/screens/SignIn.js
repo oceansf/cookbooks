@@ -57,7 +57,7 @@ const SignIn = () => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
 
-  const postData = () => {
+  const signIn = () => {
     if (
       //eslint-disable-next-line
       !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
@@ -97,7 +97,8 @@ const SignIn = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    postData();
+    console.log('clicked');
+    signIn();
   };
 
   return (
