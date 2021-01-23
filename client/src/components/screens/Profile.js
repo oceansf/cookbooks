@@ -41,18 +41,15 @@ const ProfileInfo = styled.section`
 const ProfileStats = styled.section`
   display: flex;
   margin: 1rem 0;
-  width: 100%;
 `;
 
 const Gallery = styled.div`
   display: flex;
-  justify-items: center;
-  width: 100%;
-  `;
+`;
 
-const GalleryColumn = styled.div `
+const GalleryColumn = styled.div`
   flex: 1;
-  `;
+`;
 
 const Picture = styled.img`
   vertical-align: middle;
@@ -65,37 +62,66 @@ const Profile = () => {
   return (
     <React.Fragment>
       <Nav />
-        <ProfileWrapper>
-          <ProfileHeader>
-            <ProfilePicture src='https://images.unsplash.com/photo-1578173257188-2c095b0aef8b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' alt='profile-pic' />
-            <ProfileInfo>
-              <h2 style={{fontSize: '35px', fontWeight: '100'}}>ocean_fuaga</h2>
-              <ProfileStats>
-                <div style={{marginRight: '1rem'}}>
-                  <h3 style={{fontWeight: '400'}}><span style={{fontWeight: '600'}}>10</span> posts</h3>
-                </div>
-                <div style={{marginRight: '1rem'}}>
-                  <h3 style={{fontWeight: '400'}}><span style={{fontWeight: '600'}}>10</span> followers</h3>
-                </div>
-                <div style={{marginRight: '1rem'}}>
-                  <h3 style={{fontWeight: '400'}}><span style={{fontWeight: '600'}}>10</span> following</h3>
-                </div>
-                
-              </ProfileStats>
-            </ProfileInfo>
-          </ProfileHeader>
-          <Gallery>
-            <GalleryColumn>
-              <Picture src="https://images.unsplash.com/photo-1579366948929-444eb79881eb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt='food'/>
-              <Picture src="https://images.unsplash.com/photo-1582234363542-ee64d0ccb0d5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt='food'/>
-              <Picture src="https://images.unsplash.com/photo-1582234372722-50d7ccc30ebd?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt='food'/>
-              <Picture src="https://images.unsplash.com/photo-1582234363542-ee64d0ccb0d5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt='food'/>
-              <Picture src="https://images.unsplash.com/photo-1582234372722-50d7ccc30ebd?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt='food'/>
-              <Picture src="https://images.unsplash.com/photo-1579366948929-444eb79881eb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt='food'/>
-              <Picture src="https://images.unsplash.com/photo-1579366948929-444eb79881eb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt='food'/>
-            </GalleryColumn>
-          </Gallery>
-        </ProfileWrapper>
+      <ProfileWrapper>
+        <ProfileHeader>
+          <ProfilePicture
+            src="https://images.unsplash.com/photo-1578173257188-2c095b0aef8b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+            alt="profile-pic"
+          />
+          <ProfileInfo>
+            <h2 style={{ fontSize: '35px', fontWeight: '100' }}>ocean_fuaga</h2>
+            <ProfileStats>
+              <div style={{ marginRight: '1rem' }}>
+                <h3 style={{ fontWeight: '400' }}>
+                  <span style={{ fontWeight: '600' }}>10</span> posts
+                </h3>
+              </div>
+              <div style={{ marginRight: '1rem' }}>
+                <h3 style={{ fontWeight: '400' }}>
+                  <span style={{ fontWeight: '600' }}>10</span> followers
+                </h3>
+              </div>
+              <div style={{ marginRight: '1rem' }}>
+                <h3 style={{ fontWeight: '400' }}>
+                  <span style={{ fontWeight: '600' }}>10</span> following
+                </h3>
+              </div>
+            </ProfileStats>
+          </ProfileInfo>
+        </ProfileHeader>
+        <Gallery>
+          <GalleryColumn>
+            <Picture
+              src="https://images.unsplash.com/photo-1579366948929-444eb79881eb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+              alt="food"
+            />
+            <Picture
+              src="https://images.unsplash.com/photo-1582234363542-ee64d0ccb0d5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+              alt="food"
+            />
+            <Picture
+              src="https://images.unsplash.com/photo-1582234372722-50d7ccc30ebd?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+              alt="food"
+            />
+            <Picture
+              src="https://images.unsplash.com/photo-1582234363542-ee64d0ccb0d5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+              alt="food"
+            />
+            <Picture
+              src="https://images.unsplash.com/photo-1582234372722-50d7ccc30ebd?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+              alt="food"
+            />
+            <Picture
+              src="https://images.unsplash.com/photo-1579366948929-444eb79881eb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+              alt="food"
+            />
+            <Picture
+              src="https://images.unsplash.com/photo-1579366948929-444eb79881eb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+              alt="food"
+            />
+          </GalleryColumn>
+        </Gallery>
+      </ProfileWrapper>
     </React.Fragment>
   );
 };
