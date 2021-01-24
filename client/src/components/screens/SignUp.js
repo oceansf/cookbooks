@@ -38,6 +38,7 @@ const Input = styled.input`
   width: 80%;
   background-color: #fafafa;
   border-radius: 5px;
+  border: 1px solid lightgrey;
   padding: 1rem;
   margin-bottom: 0.5rem;
 `;
@@ -51,7 +52,6 @@ const Button = styled.button`
   background: #24fe41;
   padding: 0.5rem 1rem;
   margin-top: 0.5rem;
-
 `;
 
 const CardText = styled.p`
@@ -68,7 +68,7 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
 
-  const uploadFields = () => {
+  const signUpUser = () => {
     // Check for valid email format in input field
     if (
       //eslint-disable-next-line
@@ -106,7 +106,7 @@ const SignUp = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    uploadFields();
+    signUpUser();
   };
 
   return (

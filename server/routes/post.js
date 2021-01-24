@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const requireLogin = require('../middleware/requireLogin');
 const Post = mongoose.model('Post');
 
-router.get('/feed', requireLogin, (req, res) => {
+router.get('/feed', (req, res) => {
   Post.find()
     .populate('postedBy', '_id name')
     .sort('-createdAt')

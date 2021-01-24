@@ -39,6 +39,7 @@ const Input = styled.input`
   width: 80%;
   background-color: #fafafa;
   border-radius: 5px;
+  border: 1px solid lightgrey;
   margin-bottom: 0.5rem;
 `;
 
@@ -57,7 +58,7 @@ const SignIn = () => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
 
-  const signIn = () => {
+  const signInUser = () => {
     if (
       //eslint-disable-next-line
       !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
@@ -79,7 +80,6 @@ const SignIn = () => {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         if (data.error) {
           toast.error(data.error);
         } else {
@@ -97,8 +97,7 @@ const SignIn = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('clicked');
-    signIn();
+    signInUser();
   };
 
   return (
