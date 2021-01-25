@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import useWindowSize from '../hooks/useWindowSize';
@@ -38,12 +38,12 @@ const LogoLink = styled(Link)`
 `;
 
 const Logo = styled.h2`
-    font-size: 2rem;
-    background: -webkit-linear-gradient(#FDFC47, #24FE41);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-family: 'Pacifico', cursive;
-    margin: 0;
+  font-size: 2rem;
+  background: -webkit-linear-gradient(#fdfc47, #24fe41);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: 'Pacifico', cursive;
+  margin: 0;
 `;
 
 const LinkList = styled.div`
@@ -51,7 +51,7 @@ const LinkList = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-  padding: 1rem;
+  padding: ${props => (props.secondary ? '0' : '1rem')};
   text-decoration: none;
   color: black;
   transition: all 0.3s ease;
@@ -67,10 +67,70 @@ const StyledLink = styled(Link)`
   }
 `;
 
+const MenuWrapper = styled.div`
+  width: 150px;
+  background: white;
+  box-shadow: 0px 4px 26px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  position: absolute;
+  right: 1rem;
+  top: 5rem;
+`;
+
+const MenuList = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+`;
+
+const MenuItem = styled.li`
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: black;
+
+  :hover {
+    background: #f5f5f5;
+  }
+`;
+
 const Nav = () => {
   const size = useWindowSize();
-
+  //TODO: show auth links only when user isn't logged in
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isOpen, setOpen] = useState(false);
+
+  useEffect(() => {
+    checkLogIn();
+  }, [isLoggedIn]);
+
+  const checkLogIn = () => {
+    if (localStorage.getItem('jwt')) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  };
+
+  const PopoutMenu = () => {
+    return (
+      <MenuWrapper
+        onMouseEnter={() => setIsMenuOpen(true)}
+        onMouseLeave={() => setIsMenuOpen(!isMenuOpen)}
+      >
+        <MenuList>
+          <StyledLink to="/createpost" secondary="true">
+            <MenuItem>Post a recipe</MenuItem>
+          </StyledLink>
+          <StyledLink to="/profile" secondary="true">
+            <MenuItem>View profile</MenuItem>
+          </StyledLink>
+          <MenuItem>Log out</MenuItem>
+        </MenuList>
+      </MenuWrapper>
+    );
+  };
 
   return (
     <Navbar>
@@ -81,17 +141,22 @@ const Nav = () => {
         {size.width <= 600 ? (
           <Hamburger toggled={isOpen} toggle={setOpen} size={20} />
         ) : (
-          <LinkList>
-            <StyledLink to="/signin">
-              <h4>Sign In</h4>
-            </StyledLink>
-            <StyledLink to="/signup">
-              <h4>Sign Up</h4>
-            </StyledLink>
-            <StyledLink to="/profile">
-              <h4>Profile</h4>
-            </StyledLink>
-          </LinkList>
+          <React.Fragment>
+            <LinkList>
+              <StyledLink to="/signin">
+                <h4>Sign In</h4>
+              </StyledLink>
+              <StyledLink to="/signup">
+                <h4>Sign Up</h4>
+              </StyledLink>
+              {isLoggedIn && (
+                <StyledLink to="/profile">
+                  <h4 onMouseOver={() => setIsMenuOpen(true)}>Profile</h4>
+                </StyledLink>
+              )}
+            </LinkList>
+            {isMenuOpen && <PopoutMenu />}
+          </React.Fragment>
         )}
       </Wrapper>
     </Navbar>
