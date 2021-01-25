@@ -132,13 +132,26 @@ const Nav = () => {
         onMouseLeave={() => setIsMenuOpen(!isMenuOpen)}
       >
         <MenuList>
-          <StyledLink to="/createpost" secondary="true">
-            <MenuItem>Post a recipe</MenuItem>
-          </StyledLink>
-          <StyledLink to="/profile" secondary="true">
-            <MenuItem>View profile</MenuItem>
-          </StyledLink>
-          <MenuItem onClick={() => LogOut()}>Log out</MenuItem>
+          {isLoggedIn ? (
+            <React.Fragment>
+              <StyledLink to="/createpost" secondary="true">
+                <MenuItem>Post a recipe</MenuItem>
+              </StyledLink>
+              <StyledLink to="/profile" secondary="true">
+                <MenuItem>View profile</MenuItem>
+              </StyledLink>
+              <MenuItem onClick={() => LogOut()}>Log out</MenuItem>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <StyledLink to="/signin" secondary="true">
+                <MenuItem>Sign In</MenuItem>
+              </StyledLink>
+              <StyledLink to="/signup" secondary="true">
+                <MenuItem>Create an account</MenuItem>
+              </StyledLink>
+            </React.Fragment>
+          )}
         </MenuList>
       </MenuWrapper>
     );
@@ -151,7 +164,10 @@ const Nav = () => {
           <Logo>Cookbooks</Logo>
         </LogoLink>
         {size.width <= 600 ? (
-          <Hamburger toggled={isOpen} toggle={setOpen} size={20} />
+          <div onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            <Hamburger toggled={isOpen} toggle={setOpen} size={20} />
+            {isMenuOpen && <PopoutMenu />}
+          </div>
         ) : (
           <React.Fragment>
             <LinkList>
