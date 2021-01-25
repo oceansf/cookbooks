@@ -6,6 +6,7 @@ import Nav from '../Nav';
 
 const Card = styled.div`
   width: 544px;
+  margin-top: 2rem;
   padding: 2rem;
   display: flex;
   flex-direction: column;
@@ -45,6 +46,9 @@ const Button = styled.button`
   background: #24fe41;
   padding: 1rem 1rem;
   margin-top: 0.5rem;
+  :active {
+    background: #01e41f;
+  }
 `;
 
 const CreatePost = () => {
@@ -54,6 +58,7 @@ const CreatePost = () => {
   const [image, setImage] = useState('');
   const [url, setUrl] = useState('');
 
+  // Executes only when the postDetails function is ran because that is where the url state is updated.
   useEffect(() => {
     if (url) {
       fetch('/createpost', {
@@ -73,7 +78,7 @@ const CreatePost = () => {
           if (data.error) {
             toast.error(data.error);
           } else {
-            toast.success('Post created');
+            toast.success('Post created!');
             history.push('/');
           }
         })
@@ -81,7 +86,7 @@ const CreatePost = () => {
           console.log(err);
         });
     }
-    //es-lint-disable-next-line
+    //eslint-disable-next-line
   }, [url]);
 
   const postDetails = () => {
@@ -104,10 +109,11 @@ const CreatePost = () => {
 
   const onSubmit = e => {
     e.preventDefault();
-    postDetails();
-    // console.log(title);
-    // console.log(body);
-    // console.log(url);
+    if (image && title && body) {
+      postDetails();
+    } else {
+      toast.error('Please enter all the fields');
+    }
   };
 
   return (
@@ -116,20 +122,32 @@ const CreatePost = () => {
       <Card>
         <Form onSubmit={e => onSubmit(e)}>
           <h1>Post a Recipe</h1>
+          <div style={{ margin: '1rem 0', textAlign: 'center' }}>
+            <label htmlFor="upload" style={{ textAlign: 'center' }}>
+              Upload Image
+            </label>
+            <input
+              type="file"
+              id="upload"
+              name="upload"
+              onChange={e => setImage(e.target.files[0])}
+            />
+          </div>
           <Input
             type="text"
-            placeholder="title"
+            placeholder="Recipe Title"
+            id="title"
+            name="title"
             value={title}
             onChange={e => setTitle(e.target.value)}
           />
           <Input
             type="text"
-            placeholder="body"
+            placeholder="Write a caption..."
+            name="caption"
             value={body}
             onChange={e => setBody(e.target.value)}
           />
-          <input type="file" onChange={e => setImage(e.target.files[0])} />
-
           <Button type="submit">Post Recipe</Button>
         </Form>
       </Card>
