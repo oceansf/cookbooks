@@ -81,6 +81,7 @@ const CreatePost = () => {
           console.log(err);
         });
     }
+    //es-lint-disable-next-line
   }, [url]);
 
   const postDetails = () => {

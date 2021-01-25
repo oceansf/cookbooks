@@ -86,7 +86,7 @@ const SignIn = () => {
           localStorage.setItem('jwt', data.token);
           localStorage.setItem('user', JSON.stringify(data.user));
           //  dispatch({type:"USER",payload:data.user})
-          toast.success('Signed in successfully');
+          toast.success('Welcome back!');
           history.push('/');
         }
       })

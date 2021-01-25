@@ -95,7 +95,7 @@ const SignUp = () => {
         if (data.error) {
           toast.error(data.error);
         } else {
-          toast.success(data.message);
+          toast.success('Welcome to Cookbooks!');
           history.push('/signin');
         }
       })

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import useWindowSize from '../hooks/useWindowSize';
 import { Squash as Hamburger } from 'hamburger-react';
+import toast from 'react-hot-toast';
 
 const Navbar = styled.nav`
   width: 100%;
@@ -70,7 +71,7 @@ const StyledLink = styled(Link)`
 const MenuWrapper = styled.div`
   width: 150px;
   background: white;
-  box-shadow: 0px 4px 26px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 26px 0px rgba(0, 0, 0, 0.05);
   border-radius: 10px;
   position: absolute;
   right: 1rem;
@@ -95,6 +96,7 @@ const MenuItem = styled.li`
 `;
 
 const Nav = () => {
+  const history = useHistory();
   const size = useWindowSize();
   //TODO: show auth links only when user isn't logged in
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -113,6 +115,16 @@ const Nav = () => {
     }
   };
 
+  const LogOut = () => {
+    localStorage.clear();
+    setIsLoggedIn(false);
+    setIsMenuOpen(false);
+    history.push('/');
+    toast('See you soon!', {
+      icon: '👋',
+    });
+  };
+
   const PopoutMenu = () => {
     return (
       <MenuWrapper
@@ -126,7 +138,7 @@ const Nav = () => {
           <StyledLink to="/profile" secondary="true">
             <MenuItem>View profile</MenuItem>
           </StyledLink>
-          <MenuItem>Log out</MenuItem>
+          <MenuItem onClick={() => LogOut()}>Log out</MenuItem>
         </MenuList>
       </MenuWrapper>
     );
@@ -143,15 +155,23 @@ const Nav = () => {
         ) : (
           <React.Fragment>
             <LinkList>
-              <StyledLink to="/signin">
-                <h4>Sign In</h4>
-              </StyledLink>
-              <StyledLink to="/signup">
-                <h4>Sign Up</h4>
-              </StyledLink>
+              {!isLoggedIn && (
+                <React.Fragment>
+                  <StyledLink to="/signin">
+                    <h4>Sign In</h4>
+                  </StyledLink>
+                  <StyledLink to="/signup">
+                    <h4>Create an account</h4>
+                  </StyledLink>
+                </React.Fragment>
+              )}
+
               {isLoggedIn && (
-                <StyledLink to="/profile">
-                  <h4 onMouseOver={() => setIsMenuOpen(true)}>Profile</h4>
+                <StyledLink
+                  to="/profile"
+                  onMouseOver={() => setIsMenuOpen(true)}
+                >
+                  <h4>Profile</h4>
                 </StyledLink>
               )}
             </LinkList>
