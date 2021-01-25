@@ -16,6 +16,14 @@ const postSchema = new mongoose.Schema(
       required: true,
     },
     // TODO: likes
+    // ingredients: {
+    //   type: String,
+    //   required: true,
+    // },
+    // instructions: {
+    //   type: String,
+    //   required: true,
+    // },
     postedBy: {
       type: ObjectId,
       ref: 'User',

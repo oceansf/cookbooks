@@ -17,15 +17,15 @@ router.get('/feed', (req, res) => {
 });
 
 router.post('/createpost', requireLogin, (req, res) => {
-  const { title, body, photoUrl } = req.body;
-  if (!title || !body || !photoUrl) {
+  const { title, body, image } = req.body;
+  if (!title || !body || !image) {
     return res.status(422).json({ error: 'Plase add all the fields' });
   }
   req.user.password = undefined;
   const post = new Post({
     title,
     body,
-    photo: photoUrl,
+    photo: image,
     postedBy: req.user,
   });
   post

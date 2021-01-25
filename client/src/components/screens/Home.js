@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import useWindowSize from '../../hooks/useWindowSize';
 import { useQuery } from 'react-query';
@@ -25,7 +25,6 @@ const fetchPosts = async () => {
 const Home = () => {
   const size = useWindowSize();
   const { isLoading, error, data } = useQuery('posts', fetchPosts);
-  console.log(data);
 
   if (isLoading) return 'Loading...';
 
@@ -41,6 +40,7 @@ const Home = () => {
               key={post._id}
               title={post.title}
               author={post.postedBy.name}
+              image={post.photo}
               body={post.body}
             />
           );

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const Card = styled.div`
@@ -56,7 +56,7 @@ const StarButton = styled.button`
 `;
 
 const StarIcon = styled.i`
-  color: ${props => props.liked ? 'gold' : 'darkgrey'};
+  color: ${props => (props.liked ? 'gold' : 'darkgrey')};
   transition: all 0.3s ease;
   :hover {
     color: gold;
@@ -90,7 +90,7 @@ const PostCommentButton = styled.button`
   font-weight: bold;
 `;
 
-const Post = ({title, author, body}) => {
+const Post = ({ title, author, image, body }) => {
   const [liked, setLiked] = useState(false);
 
   return (
@@ -99,16 +99,20 @@ const Post = ({title, author, body}) => {
         <ProfileIcon className="fas fa-user-circle fa-2x"></ProfileIcon>
         <div>
           <h3>{title}</h3>
-          <h4>Post Author</h4>
+          <h4>{author}</h4>
         </div>
       </CardHeader>
       <CardContent>
-        <CardImage src="https://i.redd.it/ouaadpt068p01.jpg" alt="steak" />
+        <CardImage src={`${image}`} alt="steak" />
         <CardBody>
           <CardButtons>
-            <div style={{margin: '0.5rem 0'}}>
+            <div style={{ margin: '0.5rem 0' }}>
               <StarButton onClick={() => setLiked(!liked)}>
-                {liked ? <StarIcon className="fas fa-star fa-2x" liked={liked} /> : <StarIcon className="far fa-star fa-2x" />}
+                {liked ? (
+                  <StarIcon className="fas fa-star fa-2x" liked={liked} />
+                ) : (
+                  <StarIcon className="far fa-star fa-2x" />
+                )}
                 <span style={{ fontSize: '1rem' }}> 10 Stars</span>
               </StarButton>
             </div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import toast from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 
 const Container = styled.div`
   height: 100vh;
@@ -95,7 +95,7 @@ const SignIn = () => {
       });
   };
 
-  const handleSubmit = e => {
+  const onSubmit = e => {
     e.preventDefault();
     signInUser();
   };
@@ -104,14 +104,16 @@ const SignIn = () => {
     <Container>
       <Card>
         <h1>Cookbooks</h1>
-        <Form onSubmit={e => handleSubmit(e)}>
+        <Form onSubmit={e => onSubmit(e)}>
           <Input
             type="text"
+            name="email"
             placeholder="Email"
             onChange={e => setEmail(e.target.value)}
           />
           <Input
             type="password"
+            name="password"
             placeholder="Password"
             onChange={e => setPassword(e.target.value)}
           />
