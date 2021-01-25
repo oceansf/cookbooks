@@ -46,7 +46,7 @@ const Home = () => {
           );
         })}
       </Container>
-      {size.width <= 600 ? <MobileNav /> : null}
+      {size.width <= 600 && <MobileNav />}
     </React.Fragment>
   );
 };

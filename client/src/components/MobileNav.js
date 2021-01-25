@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const Navbar = styled.nav`
   width: 100%;
@@ -58,10 +59,14 @@ const MobileNav = () => {
           <i className="fas fa-star fa-2x"></i>
         </NavButton>
         <NavButton color="#24fe41" primary>
-          <i className="fas fa-plus-circle fa-4x"></i>
+          <Link to="/createpost">
+            <i className="fas fa-plus-circle fa-4x"></i>
+          </Link>
         </NavButton>
         <NavButton color="grey">
-          <i className="fas fa-user-circle fa-2x"></i>
+          <Link to="/profile">
+            <i className="fas fa-user-circle fa-2x"></i>
+          </Link>
         </NavButton>
       </Wrapper>
     </Navbar>

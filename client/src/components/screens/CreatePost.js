@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
+import useWindowSize from '../../hooks/useWindowSize';
 import toast from 'react-hot-toast';
 import Nav from '../Nav';
+import MobileNav from '../MobileNav';
 
 const Card = styled.div`
   width: 544px;
@@ -53,6 +55,7 @@ const Button = styled.button`
 
 const CreatePost = () => {
   const history = useHistory();
+  const size = useWindowSize();
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [image, setImage] = useState('');
@@ -150,6 +153,7 @@ const CreatePost = () => {
           />
           <Button type="submit">Post Recipe</Button>
         </Form>
+        {size.width <= 600 && <MobileNav />}
       </Card>
     </React.Fragment>
   );
