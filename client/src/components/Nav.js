@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { UserContext } from '../App';
 import styled from 'styled-components';
 import useWindowSize from '../hooks/useWindowSize';
 import { Squash as Hamburger } from 'hamburger-react';
@@ -96,12 +97,13 @@ const MenuItem = styled.li`
 `;
 
 const Nav = () => {
+  const { state, dispatch } = useContext(UserContext);
   const history = useHistory();
   const size = useWindowSize();
   //TODO: show auth links only when user isn't logged in
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isOpen, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     checkLogIn();
@@ -117,9 +119,10 @@ const Nav = () => {
 
   const LogOut = () => {
     localStorage.clear();
+    dispatch({ type: 'CLEAR' });
+    history.push('/signin');
     setIsLoggedIn(false);
     setIsMenuOpen(false);
-    history.push('/');
     toast('See you soon!', {
       icon: '👋',
     });
@@ -165,7 +168,7 @@ const Nav = () => {
         </LogoLink>
         {size.width <= 600 ? (
           <div onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            <Hamburger toggled={isOpen} toggle={setOpen} size={20} />
+            <Hamburger toggled={isOpen} toggle={setIsOpen} size={20} />
             {isMenuOpen && <PopoutMenu />}
           </div>
         ) : (

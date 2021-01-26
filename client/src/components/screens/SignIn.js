@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { toast } from 'react-hot-toast';
+import { UserContext } from '../../App';
 
 const Container = styled.div`
   height: 100vh;
@@ -54,6 +55,7 @@ const Button = styled.button`
 `;
 
 const SignIn = () => {
+  const { state, dispatch } = useContext(UserContext);
   const history = useHistory();
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -85,7 +87,7 @@ const SignIn = () => {
         } else {
           localStorage.setItem('jwt', data.token);
           localStorage.setItem('user', JSON.stringify(data.user));
-          //  dispatch({type:"USER",payload:data.user})
+          dispatch({ type: 'USER', payload: data.user });
           toast.success('Welcome back!');
           history.push('/');
         }
