@@ -36,6 +36,7 @@ const Routes = () => {
     if (user) {
       dispatch({ type: 'USER', payload: user });
     } else {
+      // This makes it so that users cannot view the home page unless they log in or make an account.
       //   if (!history.location.pathname.startsWith('/reset')) {
       //     history.push('/signin');
       //   }

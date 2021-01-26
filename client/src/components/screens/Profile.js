@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
+import { UserContext } from '../../App';
 import Nav from '../Nav';
 
 const ProfileWrapper = styled.div`
@@ -16,6 +17,10 @@ const ProfileHeader = styled.div`
   justify-content: space-evenly;
   padding: 1rem 0;
   border-bottom: 1px solid lightgrey;
+
+  @media only screen and (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 
 const ProfilePicture = styled.img`
@@ -43,22 +48,49 @@ const ProfileStats = styled.section`
   margin: 1rem 0;
 `;
 
-const Gallery = styled.div`
-  display: flex;
+const Gallery = styled.section`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 0.25rem;
+  justify-items: center;
+  padding-top: 0.5rem;
 `;
 
-const GalleryColumn = styled.div`
-  flex: 1;
-`;
+const Image = styled.div`
+  width: 300px;
+  height: 300px;
+  background-image: url(${props => props.image});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 
-const Picture = styled.img`
-  vertical-align: middle;
-  max-width: 30%;
-  height: auto;
-  padding: 4px;
+  :hover {
+    cursor: pointer;
+  }
+
+  @media only screen and (max-width: 600px) {
+    width: 123px;
+    height: 123px;
+  }
 `;
 
 const Profile = () => {
+  const [mypics, setMyPics] = useState([]);
+  const { state, dispatch } = useContext(UserContext);
+
+  useEffect(() => {
+    fetch('/myposts', {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+      },
+    })
+      .then(res => res.json())
+      .then(result => {
+        console.log(result);
+        setMyPics(result.myposts);
+      });
+  }, []);
+
   return (
     <React.Fragment>
       <Nav />
@@ -90,36 +122,9 @@ const Profile = () => {
           </ProfileInfo>
         </ProfileHeader>
         <Gallery>
-          <GalleryColumn>
-            <Picture
-              src="https://images.unsplash.com/photo-1579366948929-444eb79881eb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-              alt="food"
-            />
-            <Picture
-              src="https://images.unsplash.com/photo-1582234363542-ee64d0ccb0d5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-              alt="food"
-            />
-            <Picture
-              src="https://images.unsplash.com/photo-1582234372722-50d7ccc30ebd?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-              alt="food"
-            />
-            <Picture
-              src="https://images.unsplash.com/photo-1582234363542-ee64d0ccb0d5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-              alt="food"
-            />
-            <Picture
-              src="https://images.unsplash.com/photo-1582234372722-50d7ccc30ebd?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-              alt="food"
-            />
-            <Picture
-              src="https://images.unsplash.com/photo-1579366948929-444eb79881eb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-              alt="food"
-            />
-            <Picture
-              src="https://images.unsplash.com/photo-1579366948929-444eb79881eb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-              alt="food"
-            />
-          </GalleryColumn>
+          {mypics.map(post => (
+            <Image image={post.photo} key={post.title}></Image>
+          ))}
         </Gallery>
       </ProfileWrapper>
     </React.Fragment>
