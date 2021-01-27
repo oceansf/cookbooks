@@ -69,6 +69,17 @@ const StyledLink = styled(Link)`
   }
 `;
 
+const LinkWrapper = styled.div `
+   display: flex;
+   align-items: center;
+`;
+
+const OpenMenuButton = styled.div`
+  cursor: pointer;
+  color: ${props => props.isOpen ? '#24fe41' : 'black'};
+  transition: all 0.3s ease;
+`;
+
 const MenuWrapper = styled.div`
   width: 150px;
   background: white;
@@ -186,12 +197,16 @@ const Nav = () => {
               )}
 
               {isLoggedIn && (
-                <StyledLink
-                  to="/profile"
-                  onMouseOver={() => setIsMenuOpen(true)}
-                >
-                  <h4>Profile</h4>
-                </StyledLink>
+                <LinkWrapper>
+                  <StyledLink
+                    to="/profile"
+                  >
+                    <h4>Profile</h4>
+                  </StyledLink>
+                  <OpenMenuButton isOpen={isMenuOpen} onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                    <i class="fas fa-sort-down"></i>
+                  </OpenMenuButton>
+                </LinkWrapper>
               )}
             </LinkList>
             {isMenuOpen && <PopoutMenu />}
