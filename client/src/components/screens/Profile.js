@@ -101,7 +101,9 @@ const Profile = () => {
             alt="profile-pic"
           />
           <ProfileInfo>
-            <h2 style={{ fontSize: '35px', fontWeight: '100' }}>ocean_fuaga</h2>
+            <h2 style={{ fontSize: '35px', fontWeight: '500' }}>
+              {state ? state.name : 'loading'}
+            </h2>
             <ProfileStats>
               <div style={{ marginRight: '1rem' }}>
                 <h3 style={{ fontWeight: '400' }}>

@@ -76,6 +76,8 @@ const LinkWrapper = styled.div`
 
 const OpenMenuButton = styled.div`
   cursor: pointer;
+  border-left: 1px solid lightgrey;
+  padding-left: 1rem;
   color: ${props => (props.isOpen ? '#24fe41' : 'black')};
   transition: all 0.3s ease;
 `;
@@ -199,7 +201,7 @@ const Nav = () => {
               {isLoggedIn && (
                 <LinkWrapper>
                   <StyledLink to="/profile">
-                    <h4>Profile</h4>
+                    <h4>My Profile</h4>
                   </StyledLink>
                   <OpenMenuButton
                     isOpen={isMenuOpen}

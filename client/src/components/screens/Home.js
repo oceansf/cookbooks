@@ -38,10 +38,12 @@ const Home = () => {
           return (
             <Post
               key={post._id}
+              postId={post._id}
               title={post.title}
               author={post.postedBy.name}
               image={post.photo}
               body={post.body}
+              likes={post.likes}
             />
           );
         })}

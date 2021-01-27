@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { UserContext } from '../App';
 import styled from 'styled-components';
 
 const Card = styled.div`
@@ -90,15 +91,72 @@ const PostCommentButton = styled.button`
   font-weight: bold;
 `;
 
-const Post = ({ title, author, image, body }) => {
+const Post = ({ postId, title, author, image, body, likes }) => {
+  const { state, dispatch } = useContext(UserContext);
   const [liked, setLiked] = useState(false);
+  const [numberOfLikes, setNumberOfLikes] = useState(0);
+
+  useEffect(() => {
+    setNumberOfLikes(likes.length);
+    checkIfLiked();
+  }, [likes]);
+
+  const checkIfLiked = () => {
+    if (likes.includes(state._id)) {
+      setLiked(true);
+    }
+  };
+
+  const likePost = id => {
+    setLiked(true);
+    fetch('/like', {
+      method: 'put',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+      },
+      body: JSON.stringify({
+        postId: id,
+      }),
+    })
+      .then(res => res.json())
+      .then(result => {
+        // console.log(result);
+        setNumberOfLikes(result.likes.length);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const unlikePost = id => {
+    setLiked(false);
+    fetch('/unlike', {
+      method: 'put',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+      },
+      body: JSON.stringify({
+        postId: id,
+      }),
+    })
+      .then(res => res.json())
+      .then(result => {
+        // console.log(result);
+        setNumberOfLikes(result.likes.length);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   return (
     <Card>
       <CardHeader>
         <ProfileIcon className="fas fa-user-circle fa-2x"></ProfileIcon>
         <div>
-          <h3>{title}</h3>
+          <h3 style={{ fontWeight: '500' }}>{title}</h3>
           <h4>{author}</h4>
         </div>
       </CardHeader>
@@ -107,13 +165,20 @@ const Post = ({ title, author, image, body }) => {
         <CardBody>
           <CardButtons>
             <div style={{ margin: '0.5rem 0' }}>
-              <StarButton onClick={() => setLiked(!liked)}>
+              <StarButton
+                onClick={() => {
+                  liked ? unlikePost(postId) : likePost(postId);
+                }}
+              >
                 {liked ? (
                   <StarIcon className="fas fa-star fa-2x" liked={liked} />
                 ) : (
                   <StarIcon className="far fa-star fa-2x" />
                 )}
-                <span style={{ fontSize: '1rem' }}> 10 Stars</span>
+                <span style={{ fontSize: '1rem' }}>
+                  {' '}
+                  {numberOfLikes} {numberOfLikes === 1 ? 'Star' : 'Stars'}
+                </span>
               </StarButton>
             </div>
             <ViewRecipeButton>View Recipe</ViewRecipeButton>
