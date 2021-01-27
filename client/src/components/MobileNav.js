@@ -64,8 +64,8 @@ const MobileNav = () => {
           </Link>
         </NavButton>
         <NavButton color="grey">
-          <Link to="/profile">
-            <i className="fas fa-user-circle fa-2x"></i>
+          <Link to="/profile" style={{ color: 'black' }}>
+            <i className="far fa-user-circle fa-2x"></i>
           </Link>
         </NavButton>
       </Wrapper>
