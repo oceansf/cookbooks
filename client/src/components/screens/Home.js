@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useWindowSize from '../../hooks/useWindowSize';
 import { useQuery } from 'react-query';
@@ -40,6 +40,7 @@ const Home = () => {
               key={post._id}
               postId={post._id}
               title={post.title}
+              authorId={post.postedBy._id}
               author={post.postedBy.name}
               image={post.photo}
               body={post.body}

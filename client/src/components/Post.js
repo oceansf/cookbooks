@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../App';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import toast from 'react-hot-toast';
 
 const Card = styled.div`
   width: 600px;
@@ -18,11 +20,12 @@ const CardHeader = styled.div`
   padding: 1rem;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 `;
 
-const CardContent = styled.div`
+const HeaderInfo = styled.div`
   display: flex;
-  flex-direction: column;
+  align-items: center;
 `;
 
 const ProfileIcon = styled.i`
@@ -31,6 +34,17 @@ const ProfileIcon = styled.i`
   border-radius: 100px;
   padding: 2px;
   color: darkgrey;
+`;
+
+const DeleteButton = styled.div`
+  cursor: pointer;
+  color: grey;
+  padding: 0 1rem;
+`;
+
+const CardContent = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const CardImage = styled.img`
@@ -91,8 +105,9 @@ const PostCommentButton = styled.button`
   font-weight: bold;
 `;
 
-const Post = ({ postId, title, author, image, body, likes }) => {
+const Post = ({ postId, title, authorId, author, image, body, likes }) => {
   const { state, dispatch } = useContext(UserContext);
+  const history = useHistory();
   const [liked, setLiked] = useState(false);
   const [numberOfLikes, setNumberOfLikes] = useState(0);
 
@@ -151,14 +166,37 @@ const Post = ({ postId, title, author, image, body, likes }) => {
       });
   };
 
+  const deletePost = postId => {
+    fetch(`/deletepost/${postId}`, {
+      method: 'delete',
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+      },
+    })
+      .then(res => res.json())
+      .then(result => {
+        history.go(0);
+        toast('Recipe successfully deleted', {
+          icon: '🔪',
+        });
+      });
+  };
+
   return (
     <Card>
       <CardHeader>
-        <ProfileIcon className="fas fa-user-circle fa-2x"></ProfileIcon>
-        <div>
-          <h3 style={{ fontWeight: '500' }}>{title}</h3>
-          <h4>{author}</h4>
-        </div>
+        <HeaderInfo>
+          <ProfileIcon className="fas fa-user-circle fa-2x"></ProfileIcon>
+          <div>
+            <h3 style={{ fontWeight: '500' }}>{title}</h3>
+            <h4>{author}</h4>
+          </div>
+        </HeaderInfo>
+        {state._id === authorId ? (
+          <DeleteButton onClick={() => deletePost(postId)}>
+            <i className="fas fa-ellipsis-v"></i>
+          </DeleteButton>
+        ) : null}
       </CardHeader>
       <CardContent>
         <CardImage src={`${image}`} alt="steak" />
