@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../App';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import toast from 'react-hot-toast';
 
@@ -36,10 +36,47 @@ const ProfileIcon = styled.i`
   color: darkgrey;
 `;
 
-const DeleteButton = styled.div`
+const MenuIconButton = styled.div`
   cursor: pointer;
-  color: grey;
+  color: ${props => (props.showMenu ? 'grey' : 'darkgrey')};
   padding: 0 1rem;
+
+  transition: all 0.3s ease;
+`;
+
+// const DeleteButton = styled.div``;
+
+const MenuWrapper = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
+const Menu = styled.div`
+  width: 150px;
+  background: white;
+  box-shadow: 0px 4px 26px 0px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  position: absolute;
+  z-index: 1;
+  right: 0;
+`;
+
+const MenuList = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+`;
+
+const MenuItem = styled.li`
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  color: #d32f2f;
+  border-radius: 10px;
+  :hover {
+    background: #f5f5f5;
+  }
 `;
 
 const CardContent = styled.div`
@@ -105,9 +142,19 @@ const PostCommentButton = styled.button`
   font-weight: bold;
 `;
 
-const Post = ({ postId, title, authorId, author, image, body, likes }) => {
+const Post = ({
+  postId,
+  title,
+  authorId,
+  author,
+  image,
+  body,
+  likes,
+  comments,
+}) => {
   const { state, dispatch } = useContext(UserContext);
   const history = useHistory();
+  const [showMenu, setShowMenu] = useState(false);
   const [liked, setLiked] = useState(false);
   const [numberOfLikes, setNumberOfLikes] = useState(0);
 
@@ -166,6 +213,35 @@ const Post = ({ postId, title, authorId, author, image, body, likes }) => {
       });
   };
 
+  const makeComment = (text, postId) => {
+    fetch('/comment', {
+      method: 'put',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+      },
+      body: JSON.stringify({
+        postId,
+        text,
+      }),
+    })
+      .then(res => res.json())
+      .then(result => {
+        console.log(result);
+        // const newData = data.map(item => {
+        //   if (item._id == result._id) {
+        //     return result;
+        //   } else {
+        //     return item;
+        //   }
+        // });
+        // setData(newData);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   const deletePost = postId => {
     fetch(`/deletepost/${postId}`, {
       method: 'delete',
@@ -182,6 +258,18 @@ const Post = ({ postId, title, authorId, author, image, body, likes }) => {
       });
   };
 
+  const PopoutMenu = () => {
+    return (
+      <Menu onMouseLeave={() => setShowMenu(!setShowMenu)}>
+        <MenuList>
+          <React.Fragment>
+            <MenuItem onClick={() => deletePost()}>Delete recipe</MenuItem>
+          </React.Fragment>
+        </MenuList>
+      </Menu>
+    );
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -193,9 +281,15 @@ const Post = ({ postId, title, authorId, author, image, body, likes }) => {
           </div>
         </HeaderInfo>
         {state._id === authorId ? (
-          <DeleteButton onClick={() => deletePost(postId)}>
-            <i className="fas fa-ellipsis-v"></i>
-          </DeleteButton>
+          <MenuWrapper>
+            <MenuIconButton
+              showMenu={showMenu}
+              onClick={() => setShowMenu(!showMenu)}
+            >
+              <i className="fas fa-ellipsis-v"></i>
+            </MenuIconButton>
+            {showMenu && <PopoutMenu />}
+          </MenuWrapper>
         ) : null}
       </CardHeader>
       <CardContent>
@@ -225,12 +319,20 @@ const Post = ({ postId, title, authorId, author, image, body, likes }) => {
             <span style={{ fontWeight: '600' }}>{author}</span> {body}
           </p>
           <h4 style={{ color: 'grey' }}>Comments</h4>
-          <p>
+          {/* <p>
             <span style={{ fontWeight: '600' }}>ocean_fuaga</span> Looks good!
           </p>
           <p>
             <span style={{ fontWeight: '600' }}>gordanramsay</span> I disagree.
-          </p>
+          </p> */}
+          {comments.map(comment => {
+            return (
+              <p key={comment._id}>
+                <span>{comment.postedBy.name}</span>
+                {comment.text}
+              </p>
+            );
+          })}
           <CommentForm>
             <CommentInput type="text" placeholder="Add comment..." />
             <PostCommentButton type="submit">POST</PostCommentButton>

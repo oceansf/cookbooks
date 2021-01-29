@@ -103,6 +103,9 @@ const MenuItem = styled.li`
   cursor: pointer;
   transition: all 0.3s ease;
   color: black;
+  border-radius: ${props => props.top && '10px 10px 0 0'};
+  border-radius: ${props => props.middle && '0'};
+  border-radius: ${props => props.bottom && '0 0 10px 10px'};
 
   :hover {
     background: #f5f5f5;
@@ -151,12 +154,14 @@ const Nav = () => {
           {isLoggedIn ? (
             <React.Fragment>
               <StyledLink to="/createpost" secondary="true">
-                <MenuItem>Post a recipe</MenuItem>
+                <MenuItem top>Post a recipe</MenuItem>
               </StyledLink>
               <StyledLink to="/profile" secondary="true">
-                <MenuItem>View profile</MenuItem>
+                <MenuItem middle>View profile</MenuItem>
               </StyledLink>
-              <MenuItem onClick={() => LogOut()}>Log out</MenuItem>
+              <MenuItem bottom onClick={() => LogOut()}>
+                Log out
+              </MenuItem>
             </React.Fragment>
           ) : (
             <React.Fragment>

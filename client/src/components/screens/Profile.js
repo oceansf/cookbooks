@@ -107,7 +107,8 @@ const Profile = () => {
             <ProfileStats>
               <div style={{ marginRight: '1rem' }}>
                 <h3 style={{ fontWeight: '400' }}>
-                  <span style={{ fontWeight: '600' }}>10</span> posts
+                  <span style={{ fontWeight: '600' }}>{mypics.length}</span>{' '}
+                  posts
                 </h3>
               </div>
               <div style={{ marginRight: '1rem' }}>

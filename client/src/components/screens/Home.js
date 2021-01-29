@@ -13,28 +13,42 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const fetchPosts = async () => {
-  const res = await fetch('/feed', {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-    },
-  });
-  return res.json();
-};
+// const fetchPosts = async () => {
+//   const res = await fetch('/feed', {
+//     headers: {
+//       Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+//     },
+//   });
+//   console.log(res);
+//   return res.json();
+// };
 
 const Home = () => {
   const size = useWindowSize();
-  const { isLoading, error, data } = useQuery('posts', fetchPosts);
+  const [data, setData] = useState([]);
+  // const { isLoading, error, data } = useQuery('posts', fetchPosts);
 
-  if (isLoading) return 'Loading...';
+  // if (isLoading) return 'Loading...';
 
-  if (error) return 'An error has occurred: ' + error.message;
+  // if (error) return 'An error has occurred: ' + error.message;
+
+  useEffect(() => {
+    fetch('/feed', {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+      },
+    })
+      .then(res => res.json())
+      .then(result => {
+        setData(result.posts);
+      });
+  }, []);
 
   return (
     <React.Fragment>
       <Nav />
       <Container>
-        {data.posts.map(post => {
+        {data.map(post => {
           return (
             <Post
               key={post._id}
@@ -45,6 +59,7 @@ const Home = () => {
               image={post.photo}
               body={post.body}
               likes={post.likes}
+              comments={post.comments}
             />
           );
         })}
