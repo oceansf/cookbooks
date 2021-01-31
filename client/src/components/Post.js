@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../App';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import toast from 'react-hot-toast';
 
@@ -143,6 +143,7 @@ const PostCommentButton = styled.button`
 `;
 
 const Post = ({
+  post,
   postId,
   title,
   authorId,
@@ -156,12 +157,15 @@ const Post = ({
   const history = useHistory();
   const [showMenu, setShowMenu] = useState(false);
   const [liked, setLiked] = useState(false);
+  const [commentText, setCommentText] = useState('');
+  const [commentCount, setCommentCount] = useState(0);
+
   const [numberOfLikes, setNumberOfLikes] = useState(0);
 
   useEffect(() => {
     setNumberOfLikes(likes.length);
     checkIfLiked();
-  }, [likes]);
+  }, [likes, commentCount]);
 
   const checkIfLiked = () => {
     if (likes.includes(state._id)) {
@@ -236,6 +240,7 @@ const Post = ({
         //   }
         // });
         // setData(newData);
+        setCommentCount(comments.length);
       })
       .catch(err => {
         console.log(err);
@@ -256,6 +261,12 @@ const Post = ({
           icon: '🔪',
         });
       });
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    makeComment(commentText, postId);
+    setCommentText('');
   };
 
   const PopoutMenu = () => {
@@ -328,13 +339,20 @@ const Post = ({
           {comments.map(comment => {
             return (
               <p key={comment._id}>
-                <span>{comment.postedBy.name}</span>
+                <span style={{ fontWeight: '600' }}>
+                  {comment.postedBy.name}{' '}
+                </span>
                 {comment.text}
               </p>
             );
           })}
-          <CommentForm>
-            <CommentInput type="text" placeholder="Add comment..." />
+          <CommentForm onSubmit={e => handleSubmit(e)}>
+            <CommentInput
+              type="text"
+              placeholder="Add comment..."
+              value={commentText}
+              onChange={e => setCommentText(e.target.value)}
+            />
             <PostCommentButton type="submit">POST</PostCommentButton>
           </CommentForm>
         </CardBody>
