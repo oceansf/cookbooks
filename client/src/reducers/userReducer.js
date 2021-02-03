@@ -7,16 +7,15 @@ export const reducer = (state, action) => {
   if (action.type === 'CLEAR') {
     return null;
   }
-  // TODO: Add follow functionality to user
-  // if (action.type == 'UPDATE') {
-  //   return {
-  //     ...state,
-  //     followers: action.payload.followers,
-  //     following: action.payload.following,
-  //   };
-  // }
+  if (action.type === 'UPDATE') {
+    return {
+      ...state,
+      followers: action.payload.followers,
+      following: action.payload.following,
+    };
+  }
   // TODO: Let user update profile picture
-  // if (action.type == 'UPDATEPIC') {
+  // if (action.type == 'UPDATE PIC') {
   //   return {
   //     ...state,
   //     pic: action.payload,

@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
-import styled from 'styled-components';
-import { UserContext } from '../../App';
-import {useParams} from 'react-router-dom';
-import Nav from '../Nav';
+import React, { useState, useEffect, useContext } from "react";
+import styled from "styled-components";
+import { UserContext } from "../../App";
+import { useParams } from "react-router-dom";
+import Nav from "../Nav";
 
 const ProfileWrapper = styled.div`
   width: 975px;
@@ -49,6 +49,17 @@ const ProfileStats = styled.section`
   margin: 1rem 0;
 `;
 
+const FollowButton = styled.button `
+  background: ${props => props.following ? 'white' : '#1cbf32'};
+  color:  ${props => props.following ? '#1cbf32' : 'white'};
+  border: 2px solid #1cbf32;
+  width: 65%;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+`;
+
 const Gallery = styled.section`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -60,7 +71,7 @@ const Gallery = styled.section`
 const Image = styled.div`
   width: 300px;
   height: 300px;
-  background-image: url(${props => props.image});
+  background-image: url(${(props) => props.image});
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -75,71 +86,150 @@ const Image = styled.div`
   }
 `;
 
-const Profile = () => {
-    const [userProfile,setProfile] = useState(null)
-    
-    const {state,dispatch} = useContext(UserContext)
-    const {userId} = useParams()
-    // const [showfollow,setShowFollow] = useState(state?!state.following.includes(userid):true)
+const UserProfile = () => {
+  const [userProfile, setProfile] = useState(null);
 
-  useEffect(()=>{
-    fetch(`/user/${userId}`,{
-        headers:{
-            "Authorization":"Bearer "+ localStorage.getItem("jwt")
-        }
-    }).then(res=>res.json())
-    .then(result=>{
-        //console.log(result)
-      
-         setProfile(result)
+  const { state, dispatch } = useContext(UserContext);
+  const { userId } = useParams();
+  const [showfollow,setShowFollow] = useState(state ? !state.following.includes(userId) : true)
+
+  useEffect(() => {
+    fetch(`/user/${userId}`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
     })
- },[])
+      .then((res) => res.json())
+      .then((result) => {
+        //console.log(result)
+
+        setProfile(result);
+      });
+  }, []);
+
+  const followUser = () => {
+    fetch("/follow", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        followId: userId,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({
+          type: "UPDATE",
+          payload: { following: data.following, followers: data.followers },
+        });
+        localStorage.setItem("user", JSON.stringify(data));
+        setProfile((prevState) => {
+          return {
+            ...prevState,
+            user: {
+              ...prevState.user,
+              followers: [...prevState.user.followers, data._id],
+            },
+          };
+        });
+        setShowFollow(false);
+      });
+  };
+
+  const unfollowUser = () => {
+    fetch("/unfollow", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        unfollowId: userId,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({
+          type: "UPDATE",
+          payload: { following: data.following, followers: data.followers },
+        });
+        localStorage.setItem("user", JSON.stringify(data));
+
+        setProfile((prevState) => {
+          const newFollower = prevState.user.followers.filter(
+            (item) => item != data._id
+          );
+          return {
+            ...prevState,
+            user: {
+              ...prevState.user,
+              followers: newFollower,
+            },
+          };
+        });
+        setShowFollow(true);
+      });
+  };
 
   return (
     <React.Fragment>
-        <Nav />
-        {userProfile ? 
-      <ProfileWrapper>
-        <ProfileHeader>
-          <ProfilePicture
-            src="https://images.unsplash.com/photo-1578173257188-2c095b0aef8b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-            alt="profile-pic"
-          />
-          <ProfileInfo>
-            <h2 style={{ fontSize: '35px', fontWeight: '500' }}>
-              {state ? state.name : 'loading'}
-            </h2>
-            <ProfileStats>
-              <div style={{ marginRight: '1rem' }}>
-                <h3 style={{ fontWeight: '400' }}>
-                  <span style={{ fontWeight: '600' }}>{userProfile.posts.length}</span>{' '}
-                  posts
-                </h3>
-              </div>
-              <div style={{ marginRight: '1rem' }}>
-                <h3 style={{ fontWeight: '400' }}>
-                  <span style={{ fontWeight: '600' }}>10</span> followers
-                </h3>
-              </div>
-              <div style={{ marginRight: '1rem' }}>
-                <h3 style={{ fontWeight: '400' }}>
-                  <span style={{ fontWeight: '600' }}>10</span> following
-                </h3>
-              </div>
-            </ProfileStats>
-          </ProfileInfo>
-        </ProfileHeader>
-        <Gallery>
-          {userProfile.posts.map(post => (
-            <Image image={post.photo} key={post.title}></Image>
-          ))}
-        </Gallery>
-      </ProfileWrapper>
-        :
+      <Nav />
+      {userProfile ? (
+        <ProfileWrapper>
+          <ProfileHeader>
+            <ProfilePicture
+              src="https://images.unsplash.com/photo-1578173257188-2c095b0aef8b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+              alt="profile-pic"
+            />
+            <ProfileInfo>
+              <h2 style={{ fontSize: "35px", fontWeight: "500" }}>
+                {userProfile ? userProfile.user.name : "loading"}
+              </h2>
+              <ProfileStats>
+                <div style={{ marginRight: "1rem" }}>
+                  <h3 style={{ fontWeight: "400" }}>
+                    <span style={{ fontWeight: "600" }}>
+                      {userProfile.posts.length}
+                    </span>{" "}
+                    posts
+                  </h3>
+                </div>
+                <div style={{ marginRight: "1rem" }}>
+                  <h3 style={{ fontWeight: "400" }}>
+                    <span style={{ fontWeight: "600" }}>
+                      {userProfile.user.followers.length}
+                    </span>{" "}
+                    followers
+                  </h3>
+                </div>
+                <div style={{ marginRight: "1rem" }}>
+                  <h3 style={{ fontWeight: "400" }}>
+                    <span style={{ fontWeight: "600" }}>
+                      {userProfile.user.following.length}
+                    </span>{" "}
+                    following
+                  </h3>
+                </div>
+              </ProfileStats>
+              {!showfollow ? <FollowButton following onClick={() => unfollowUser()}>Unfollow</FollowButton> 
+              : 
+              <FollowButton onClick={() => followUser()}>Follow</FollowButton>
+              }
+            </ProfileInfo>
+          </ProfileHeader>
+          <Gallery>
+            {userProfile.posts.map((post) => (
+              <Image image={post.photo} key={post.title}></Image>
+            ))}
+          </Gallery>
+        </ProfileWrapper>
+      ) : (
         <h4>Loading...</h4>
-    }
+      )}
     </React.Fragment>
   );
 };
 
-export default Profile;
+export default UserProfile;

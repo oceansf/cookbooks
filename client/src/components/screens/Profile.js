@@ -94,6 +94,7 @@ const Profile = () => {
   return (
     <React.Fragment>
       <Nav />
+      {state ? 
       <ProfileWrapper>
         <ProfileHeader>
           <ProfilePicture
@@ -113,12 +114,12 @@ const Profile = () => {
               </div>
               <div style={{ marginRight: '1rem' }}>
                 <h3 style={{ fontWeight: '400' }}>
-                  <span style={{ fontWeight: '600' }}>10</span> followers
+                  <span style={{ fontWeight: '600' }}>{state.followers > 0 ? state.followers : '0'}</span> followers
                 </h3>
               </div>
               <div style={{ marginRight: '1rem' }}>
                 <h3 style={{ fontWeight: '400' }}>
-                  <span style={{ fontWeight: '600' }}>10</span> following
+                  <span style={{ fontWeight: '600' }}>{state.followers > 0 ? state.followers : '0'}</span> following
                 </h3>
               </div>
             </ProfileStats>
@@ -130,6 +131,9 @@ const Profile = () => {
           ))}
         </Gallery>
       </ProfileWrapper>
+      :
+      <h4>Loading...</h4>
+      }
     </React.Fragment>
   );
 };

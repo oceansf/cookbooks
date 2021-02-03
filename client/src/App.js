@@ -8,7 +8,6 @@ import {
 } from 'react-router-dom';
 import styled from 'styled-components';
 import GlobalStyle from './GlobalStyle';
-import { QueryClient, QueryClientProvider } from 'react-query';
 
 import Home from './components/screens/Home';
 import SignIn from './components/screens/SignIn';
@@ -25,8 +24,6 @@ const Container = styled.div`
 `;
 
 export const UserContext = createContext();
-
-const queryClient = new QueryClient();
 
 const Routes = () => {
   const history = useHistory();
@@ -63,15 +60,13 @@ function App() {
 
   return (
     <UserContext.Provider value={{ state, dispatch }}>
-      <QueryClientProvider client={queryClient}>
-        <GlobalStyle />
-        <Container>
-          <Router>
-            <Routes />
-          </Router>
-        </Container>
-        <Toaster position="bottom-center" />
-      </QueryClientProvider>
+      <GlobalStyle />
+      <Container>
+        <Router>
+          <Routes />
+        </Router>
+      </Container>
+      <Toaster position="bottom-center" />
     </UserContext.Provider>
   );
 }

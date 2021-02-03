@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../App';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import toast from 'react-hot-toast';
 
@@ -44,7 +44,14 @@ const MenuIconButton = styled.div`
   transition: all 0.3s ease;
 `;
 
-// const DeleteButton = styled.div``;
+const StyledLink = styled(Link)`
+    text-decoration: none;
+    color: black;
+
+    &:focus, &:hover, &:visited, &:link, &:active {
+        text-decoration: none;
+    }
+`;
 
 const MenuWrapper = styled.div`
   position: relative;
@@ -288,7 +295,7 @@ const Post = ({
           <ProfileIcon className="fas fa-user-circle fa-2x"></ProfileIcon>
           <div>
             <h3 style={{ fontWeight: '500' }}>{title}</h3>
-            <h4>{author}</h4>
+            <h4><StyledLink to={authorId !== state._id ? `/profile/${authorId}` : '/profile'}>{author}</StyledLink></h4>
           </div>
         </HeaderInfo>
         {state._id === authorId ? (
