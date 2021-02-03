@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { UserContext } from '../../App';
+import {useParams} from 'react-router-dom';
 import Nav from '../Nav';
 
 const ProfileWrapper = styled.div`
@@ -75,25 +76,29 @@ const Image = styled.div`
 `;
 
 const Profile = () => {
-  const [mypics, setMyPics] = useState([]);
-  const { state, dispatch } = useContext(UserContext);
+    const [userProfile,setProfile] = useState(null)
+    
+    const {state,dispatch} = useContext(UserContext)
+    const {userId} = useParams()
+    // const [showfollow,setShowFollow] = useState(state?!state.following.includes(userid):true)
 
-  useEffect(() => {
-    fetch('/myposts', {
-      headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
-      },
+  useEffect(()=>{
+    fetch(`/user/${userId}`,{
+        headers:{
+            "Authorization":"Bearer "+ localStorage.getItem("jwt")
+        }
+    }).then(res=>res.json())
+    .then(result=>{
+        //console.log(result)
+      
+         setProfile(result)
     })
-      .then(res => res.json())
-      .then(result => {
-        // console.log(result);
-        setMyPics(result.myposts);
-      });
-  }, []);
+ },[])
 
   return (
     <React.Fragment>
-      <Nav />
+        <Nav />
+        {userProfile ? 
       <ProfileWrapper>
         <ProfileHeader>
           <ProfilePicture
@@ -107,7 +112,7 @@ const Profile = () => {
             <ProfileStats>
               <div style={{ marginRight: '1rem' }}>
                 <h3 style={{ fontWeight: '400' }}>
-                  <span style={{ fontWeight: '600' }}>{mypics.length}</span>{' '}
+                  <span style={{ fontWeight: '600' }}>{userProfile.posts.length}</span>{' '}
                   posts
                 </h3>
               </div>
@@ -125,11 +130,14 @@ const Profile = () => {
           </ProfileInfo>
         </ProfileHeader>
         <Gallery>
-          {mypics.map(post => (
+          {userProfile.posts.map(post => (
             <Image image={post.photo} key={post.title}></Image>
           ))}
         </Gallery>
       </ProfileWrapper>
+        :
+        <h4>Loading...</h4>
+    }
     </React.Fragment>
   );
 };

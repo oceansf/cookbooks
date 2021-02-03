@@ -274,7 +274,7 @@ const Post = ({
       <Menu onMouseLeave={() => setShowMenu(!setShowMenu)}>
         <MenuList>
           <React.Fragment>
-            <MenuItem onClick={() => deletePost()}>Delete recipe</MenuItem>
+            <MenuItem onClick={() => deletePost(postId)}>Delete recipe</MenuItem>
           </React.Fragment>
         </MenuList>
       </Menu>

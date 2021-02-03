@@ -14,6 +14,7 @@ import Home from './components/screens/Home';
 import SignIn from './components/screens/SignIn';
 import SignUp from './components/screens/SignUp';
 import Profile from './components/screens/Profile';
+import UserProfile from './components/screens/UserProfile';
 import { Toaster } from 'react-hot-toast';
 import CreatePost from './components/screens/CreatePost';
 
@@ -37,9 +38,9 @@ const Routes = () => {
       dispatch({ type: 'USER', payload: user });
     } else {
       // This makes it so that users cannot view the home page unless they log in or make an account.
-      //   if (!history.location.pathname.startsWith('/reset')) {
-      //     history.push('/signin');
-      //   }
+        // if (!history.location.pathname.startsWith('/reset')) {
+        //   history.push('/signin');
+        // }
       history.push('/');
     }
     //eslint-disable-next-line
@@ -51,6 +52,7 @@ const Routes = () => {
       <Route exact path="/signin" component={SignIn} />
       <Route exact path="/signup" component={SignUp} />
       <Route exact path="/profile" component={Profile} />
+      <Route exact path="/profile/:userId" component={UserProfile} />
       <Route exact path="/createPost" component={CreatePost} />
     </Switch>
   );
