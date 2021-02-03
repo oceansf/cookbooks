@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import toast from 'react-hot-toast';
 
 const Card = styled.div`
-  width: 600px;
+  width: 614px;
   margin-top: 1rem;
   margin-bottom: 1rem;
   border-radius: 10px;
@@ -92,8 +92,11 @@ const CardContent = styled.div`
 `;
 
 const CardImage = styled.img`
-  width: 100%;
-
+  width: 614px;
+  height: 614px;
+  object-fit: cover;
+  object-position: 50% 50%;
+  
   @media only screen and (max-width: 600px) {
     width: 100%;
   }
