@@ -28,7 +28,7 @@ const Home = () => {
       .then(result => {
         setData(result.posts);
       });
-  }, []);
+  }, [data]);
 
   return (
     <React.Fragment>

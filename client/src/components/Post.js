@@ -250,6 +250,7 @@ const Post = ({
         //   }
         // });
         // setData(newData);
+        toast.success('Comment posted')
         setCommentCount(comments.length);
       })
       .catch(err => {
