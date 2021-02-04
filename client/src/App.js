@@ -35,10 +35,9 @@ const Routes = () => {
       dispatch({ type: 'USER', payload: user });
     } else {
       // This makes it so that users cannot view the home page unless they log in or make an account.
-        // if (!history.location.pathname.startsWith('/reset')) {
-        //   history.push('/signin');
-        // }
-      history.push('/');
+        if (!history.location.pathname.startsWith('/reset')) {
+          history.push('/signin');
+        }
     }
     //eslint-disable-next-line
   }, []);

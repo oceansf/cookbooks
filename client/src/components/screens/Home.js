@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import useWindowSize from '../../hooks/useWindowSize';
+import { UserContext } from '../../App';
 
 import Nav from '../Nav';
 import MobileNav from '../MobileNav';
@@ -13,6 +14,7 @@ const Container = styled.div`
 `;
 
 const Home = () => {
+  const { state, dispatch } = useContext(UserContext);
   const size = useWindowSize();
   const [data, setData] = useState([]);
 
@@ -31,6 +33,7 @@ const Home = () => {
   return (
     <React.Fragment>
       <Nav />
+      {!state && <h4 style={{marginTop: '4rem'}}>Sign in or create an account to view recipes!</h4>}
       <Container>
         {data.map(post => {
           return (

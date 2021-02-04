@@ -178,7 +178,7 @@ const Post = ({
   }, [likes, commentCount]);
 
   const checkIfLiked = () => {
-    if (likes.includes(state._id)) {
+    if (state && likes.includes(state._id)) {
       setLiked(true);
     }
   };
@@ -292,6 +292,8 @@ const Post = ({
   };
 
   return (
+    <React.Fragment>
+    {state &&
     <Card>
       <CardHeader>
         <HeaderInfo>
@@ -368,6 +370,8 @@ const Post = ({
         </CardBody>
       </CardContent>
     </Card>
+    }
+    </React.Fragment>
   );
 };
 
