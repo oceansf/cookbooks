@@ -14,10 +14,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  followers: [{type: ObjectId, ref: "User"}],
-  following: [{type: ObjectId, ref: "User"}],
   resetToken: String,
   expireToken: Date,
+  pic:{
+    type:String,
+    default:"https://res.cloudinary.com/cnq/image/upload/v1586197723/noimage_d4ipmd.png"
+  },
+  followers: [{type: ObjectId, ref: "User"}],
+  following: [{type: ObjectId, ref: "User"}],
 });
 
 mongoose.model('User', userSchema);

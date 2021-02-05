@@ -123,7 +123,7 @@ const Nav = () => {
 
   useEffect(() => {
     checkLogIn();
-  }, [isLoggedIn]);
+  }, []);
 
   const checkLogIn = () => {
     if (localStorage.getItem('jwt')) {
@@ -148,7 +148,7 @@ const Nav = () => {
     return (
       <MenuWrapper
         onMouseEnter={() => setIsMenuOpen(true)}
-        onMouseLeave={() => setIsMenuOpen(!isMenuOpen)}
+        onMouseLeave={() => setIsMenuOpen(false)}
       >
         <MenuList>
           {isLoggedIn ? (
