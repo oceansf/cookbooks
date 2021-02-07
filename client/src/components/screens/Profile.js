@@ -27,10 +27,43 @@ const ProfilePicture = styled.img`
   height: 140px;
   width: 140px;
   border-radius: 99px;
+  object-fit: cover;
 
   @media only screen and (max-width: 600px) {
     width: 77px;
     height: 77px;
+  }
+`;
+
+const ProfileImageUpload = styled.input`
+  color: rgba(0, 0, 0, 0);
+  width: 131px;
+  padding: 0;
+  margin: 1rem;
+  ::-webkit-file-upload-button {
+    visibility: hidden;
+  }
+  :before {
+    color: black;
+    content: 'Edit Profile Image';
+    display: inline-block;
+    background: linear-gradient(top, #f9f9f9, #e3e3e3);
+    border: 1px solid #999;
+    border-radius: 3px;
+    padding: 5px 8px;
+    outline: none;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    cursor: pointer;
+    text-shadow: 1px 1px #fff;
+    font-weight: 700;
+    font-size: 10pt;
+  }
+  :hover::before {
+    border-color: black;
+  }
+  :active::before {
+    background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
   }
 `;
 
@@ -77,6 +110,7 @@ const Image = styled.div`
 const Profile = () => {
   const [mypics, setMyPics] = useState([]);
   const { state, dispatch } = useContext(UserContext);
+  const [image, setImage] = useState('');
 
   useEffect(() => {
     fetch('/myposts', {
@@ -91,49 +125,110 @@ const Profile = () => {
       });
   }, []);
 
+  useEffect(() => {
+    if (image) {
+      const data = new FormData();
+      data.append('file', image);
+      data.append('upload_preset', 'insta-clone');
+      data.append('cloud_name', 'cnq');
+      fetch('https://api.cloudinary.com/v1_1/oceansf/image/upload', {
+        method: 'post',
+        body: data,
+      })
+        .then(res => res.json())
+        .then(data => {
+          fetch('/updatepic', {
+            method: 'put',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+            },
+            body: JSON.stringify({
+              pic: data.url,
+            }),
+          })
+            .then(res => res.json())
+            .then(result => {
+              console.log(result);
+              localStorage.setItem(
+                'user',
+                JSON.stringify({ ...state, pic: result.pic })
+              );
+              dispatch({ type: 'UPDATEPIC', payload: result.pic });
+              //window.location.reload()
+            });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }, [image]);
+
+  const updatePhoto = file => {
+    setImage(file);
+  };
+
   return (
     <React.Fragment>
       <Nav />
-      {state ? 
-      <ProfileWrapper>
-        <ProfileHeader>
-          <ProfilePicture
-            src="https://images.unsplash.com/photo-1578173257188-2c095b0aef8b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-            alt="profile-pic"
-          />
-          <ProfileInfo>
-            <h2 style={{ fontSize: '35px', fontWeight: '500' }}>
-              {state ? state.name : 'loading'}
-            </h2>
-            <ProfileStats>
-              <div style={{ marginRight: '1rem' }}>
-                <h3 style={{ fontWeight: '400' }}>
-                  <span style={{ fontWeight: '600' }}>{mypics.length}</span>{' '}
-                  posts
-                </h3>
-              </div>
-              <div style={{ marginRight: '1rem' }}>
-                <h3 style={{ fontWeight: '400' }}>
-                  <span style={{ fontWeight: '600' }}>{state.followers > 0 ? state.followers : '0'}</span> followers
-                </h3>
-              </div>
-              <div style={{ marginRight: '1rem' }}>
-                <h3 style={{ fontWeight: '400' }}>
-                  <span style={{ fontWeight: '600' }}>{state.followers > 0 ? state.followers : '0'}</span> following
-                </h3>
-              </div>
-            </ProfileStats>
-          </ProfileInfo>
-        </ProfileHeader>
-        <Gallery>
-          {mypics.map(post => (
-            <Image image={post.photo} key={post.title}></Image>
-          ))}
-        </Gallery>
-      </ProfileWrapper>
-      :
-      <h4>Loading...</h4>
-      }
+      {state ? (
+        <ProfileWrapper>
+          <ProfileHeader>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+              <ProfilePicture
+                src={state ? state.pic : 'Loading...'}
+                alt="profile-pic"
+              />
+              <ProfileImageUpload
+                type="file"
+                onChange={e => updatePhoto(e.target.files[0])}
+              />
+            </div>
+            <ProfileInfo>
+              <h2 style={{ fontSize: '35px', fontWeight: '500' }}>
+                {state ? state.name : 'loading'}
+              </h2>
+              <ProfileStats>
+                <div style={{ marginRight: '1rem' }}>
+                  <h3 style={{ fontWeight: '400' }}>
+                    <span style={{ fontWeight: '600' }}>{mypics.length}</span>{' '}
+                    posts
+                  </h3>
+                </div>
+                <div style={{ marginRight: '1rem' }}>
+                  <h3 style={{ fontWeight: '400' }}>
+                    <span style={{ fontWeight: '600' }}>
+                      {state.followers > 0 ? state.followers : '0'}
+                    </span>{' '}
+                    followers
+                  </h3>
+                </div>
+                <div style={{ marginRight: '1rem' }}>
+                  <h3 style={{ fontWeight: '400' }}>
+                    <span style={{ fontWeight: '600' }}>
+                      {state.followers > 0 ? state.followers : '0'}
+                    </span>{' '}
+                    following
+                  </h3>
+                </div>
+              </ProfileStats>
+            </ProfileInfo>
+          </ProfileHeader>
+          <Gallery>
+            {mypics.map(post => (
+              <Image image={post.photo} key={post.title}></Image>
+            ))}
+          </Gallery>
+        </ProfileWrapper>
+      ) : (
+        <h4>Loading...</h4>
+      )}
     </React.Fragment>
   );
 };

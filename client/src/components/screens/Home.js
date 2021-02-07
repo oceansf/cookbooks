@@ -28,12 +28,17 @@ const Home = () => {
       .then(result => {
         setData(result.posts);
       });
+    return () => {};
   }, [data]);
 
   return (
     <React.Fragment>
       <Nav />
-      {!state && <h4 style={{marginTop: '4rem'}}>Sign in or create an account to view recipes!</h4>}
+      {!state && (
+        <h4 style={{ marginTop: '4rem' }}>
+          Sign in or create an account to view recipes!
+        </h4>
+      )}
       <Container>
         {data.map(post => {
           return (
@@ -44,6 +49,7 @@ const Home = () => {
               title={post.title}
               authorId={post.postedBy._id}
               author={post.postedBy.name}
+              authorImage={post.postedBy.pic}
               image={post.photo}
               body={post.body}
               likes={post.likes}

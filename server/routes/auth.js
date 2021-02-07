@@ -7,7 +7,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const User = mongoose.model('User');
 
 router.post('/signup', (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, pic } = req.body;
   if (!email || !password || !name) {
     return res.status(422).json({ error: 'please add all the fields' });
   }
@@ -22,6 +22,7 @@ router.post('/signup', (req, res) => {
         email,
         password: hashedpassword,
         name,
+        pic,
       });
 
       user
@@ -55,10 +56,10 @@ router.post('/signin', (req, res) => {
       bcrypt.compare(password, savedUser.password).then(doMatch => {
         if (doMatch) {
           const token = jwt.sign({ _id: savedUser._id }, JWT_SECRET);
-          const { _id, name, email, followers, following } = savedUser;
+          const { _id, name, email, followers, following, pic } = savedUser;
           res.json({
             token,
-            user: { _id, name, email, followers, following },
+            user: { _id, name, email, followers, following, pic },
           });
         } else {
           return res.status(422).json({ error: 'invalid email or password' });

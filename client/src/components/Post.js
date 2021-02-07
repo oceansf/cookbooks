@@ -28,12 +28,15 @@ const HeaderInfo = styled.div`
   align-items: center;
 `;
 
-const ProfileIcon = styled.i`
+const ProfileIcon = styled.img`
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+
   margin-right: 1rem;
   border: 3px solid #24fe41;
   border-radius: 100px;
   padding: 2px;
-  color: darkgrey;
 `;
 
 const MenuIconButton = styled.div`
@@ -45,12 +48,16 @@ const MenuIconButton = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
 
-    &:focus, &:hover, &:visited, &:link, &:active {
-        text-decoration: none;
-    }
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+  }
 `;
 
 const MenuWrapper = styled.div`
@@ -96,7 +103,7 @@ const CardImage = styled.img`
   height: 614px;
   object-fit: cover;
   object-position: 50% 50%;
-  
+
   @media only screen and (max-width: 600px) {
     width: 100%;
   }
@@ -158,6 +165,7 @@ const Post = ({
   title,
   authorId,
   author,
+  authorImage,
   image,
   body,
   likes,
@@ -250,7 +258,7 @@ const Post = ({
         //   }
         // });
         // setData(newData);
-        toast.success('Comment posted')
+        toast.success('Comment posted');
         setCommentCount(comments.length);
       })
       .catch(err => {
@@ -285,7 +293,9 @@ const Post = ({
       <Menu onMouseLeave={() => setShowMenu(!setShowMenu)}>
         <MenuList>
           <React.Fragment>
-            <MenuItem onClick={() => deletePost(postId)}>Delete recipe</MenuItem>
+            <MenuItem onClick={() => deletePost(postId)}>
+              Delete recipe
+            </MenuItem>
           </React.Fragment>
         </MenuList>
       </Menu>
@@ -294,84 +304,94 @@ const Post = ({
 
   return (
     <React.Fragment>
-    {state &&
-    <Card>
-      <CardHeader>
-        <HeaderInfo>
-          <ProfileIcon className="fas fa-user-circle fa-2x"></ProfileIcon>
-          <div>
-            <h3 style={{ fontWeight: '500' }}>{title}</h3>
-            <h4><StyledLink to={authorId !== state._id ? `/profile/${authorId}` : '/profile'}>{author}</StyledLink></h4>
-          </div>
-        </HeaderInfo>
-        {state._id === authorId ? (
-          <MenuWrapper>
-            <MenuIconButton
-              showMenu={showMenu}
-              onClick={() => setShowMenu(!showMenu)}
-            >
-              <i className="fas fa-ellipsis-v"></i>
-            </MenuIconButton>
-            {showMenu && <PopoutMenu />}
-          </MenuWrapper>
-        ) : null}
-      </CardHeader>
-      <CardContent>
-        <CardImage src={`${image}`} alt="steak" />
-        <CardBody>
-          <CardButtons>
-            <div style={{ margin: '0.5rem 0' }}>
-              <StarButton
-                onClick={() => {
-                  liked ? unlikePost(postId) : likePost(postId);
-                }}
-              >
-                {liked ? (
-                  <StarIcon className="fas fa-star fa-2x" liked={liked} />
-                ) : (
-                  <StarIcon className="far fa-star fa-2x" />
-                )}
-                <span style={{ fontSize: '1rem' }}>
-                  {' '}
-                  {numberOfLikes} {numberOfLikes === 1 ? 'Star' : 'Stars'}
-                </span>
-              </StarButton>
-            </div>
-            <ViewRecipeButton>View Recipe</ViewRecipeButton>
-          </CardButtons>
-          <p>
-            <span style={{ fontWeight: '600' }}>{author}</span> {body}
-          </p>
-          <h4 style={{ color: 'grey' }}>Comments</h4>
-          {/* <p>
+      {state && (
+        <Card>
+          <CardHeader>
+            <HeaderInfo>
+              <ProfileIcon src={authorImage} alt={author} />
+              <div>
+                <h3 style={{ fontWeight: '500' }}>{title}</h3>
+                <h4>
+                  <StyledLink
+                    to={
+                      authorId !== state._id
+                        ? `/profile/${authorId}`
+                        : '/profile'
+                    }
+                  >
+                    {author}
+                  </StyledLink>
+                </h4>
+              </div>
+            </HeaderInfo>
+            {state._id === authorId ? (
+              <MenuWrapper>
+                <MenuIconButton
+                  showMenu={showMenu}
+                  onClick={() => setShowMenu(!showMenu)}
+                >
+                  <i className="fas fa-ellipsis-v"></i>
+                </MenuIconButton>
+                {showMenu && <PopoutMenu />}
+              </MenuWrapper>
+            ) : null}
+          </CardHeader>
+          <CardContent>
+            <CardImage src={`${image}`} alt="steak" />
+            <CardBody>
+              <CardButtons>
+                <div style={{ margin: '0.5rem 0' }}>
+                  <StarButton
+                    onClick={() => {
+                      liked ? unlikePost(postId) : likePost(postId);
+                    }}
+                  >
+                    {liked ? (
+                      <StarIcon className="fas fa-star fa-2x" liked={liked} />
+                    ) : (
+                      <StarIcon className="far fa-star fa-2x" />
+                    )}
+                    <span style={{ fontSize: '1rem' }}>
+                      {' '}
+                      {numberOfLikes} {numberOfLikes === 1 ? 'Star' : 'Stars'}
+                    </span>
+                  </StarButton>
+                </div>
+                <ViewRecipeButton>View Recipe</ViewRecipeButton>
+              </CardButtons>
+              <p>
+                <span style={{ fontWeight: '600' }}>{author}</span> {body}
+              </p>
+              <h4 style={{ color: 'grey' }}>Comments</h4>
+              {/* <p>
             <span style={{ fontWeight: '600' }}>ocean_fuaga</span> Looks good!
           </p>
           <p>
             <span style={{ fontWeight: '600' }}>gordanramsay</span> I disagree.
           </p> */}
-          {comments.map(comment => {
-            return (
-              <p key={comment._id}>
-                <span style={{ fontWeight: '600' }}>
-                  {comment.postedBy.name}{' '}
-                </span>
-                {comment.text}
-              </p>
-            );
-          })}
-          <CommentForm onSubmit={e => handleSubmit(e)}>
-            <CommentInput
-              type="text"
-              placeholder="Add comment..."
-              value={commentText}
-              onChange={e => setCommentText(e.target.value)}
-            />
-            <PostCommentButton type="submit">POST</PostCommentButton>
-          </CommentForm>
-        </CardBody>
-      </CardContent>
-    </Card>
-    }
+              {comments.map(comment => {
+                return (
+                  <p key={comment._id}>
+                    <span style={{ fontWeight: '600' }}>
+                      {comment.postedBy.name}{' '}
+                    </span>
+                    {comment.text}
+                  </p>
+                );
+              })}
+              <CommentForm onSubmit={e => handleSubmit(e)}>
+                <CommentInput
+                  type="text"
+                  placeholder="Add comment..."
+                  value={commentText}
+                  onChange={e => setCommentText(e.target.value)}
+                />
+                <PostCommentButton type="submit">POST</PostCommentButton>
+              </CommentForm>
+            </CardBody>
+          </CardContent>
+        </Card>
+      )}
     </React.Fragment>
   );
 };
