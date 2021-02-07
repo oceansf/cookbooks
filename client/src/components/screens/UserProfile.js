@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
-import styled from "styled-components";
-import { UserContext } from "../../App";
-import { useParams } from "react-router-dom";
-import Nav from "../Nav";
+import React, { useState, useEffect, useContext } from 'react';
+import styled from 'styled-components';
+import { UserContext } from '../../App';
+import { useParams } from 'react-router-dom';
+import Nav from '../Nav';
 
 const ProfileWrapper = styled.div`
   width: 975px;
@@ -28,6 +28,7 @@ const ProfilePicture = styled.img`
   height: 140px;
   width: 140px;
   border-radius: 99px;
+  object-fit: cover;
 
   @media only screen and (max-width: 600px) {
     width: 77px;
@@ -49,9 +50,9 @@ const ProfileStats = styled.section`
   margin: 1rem 0;
 `;
 
-const FollowButton = styled.button `
-  background: ${props => props.following ? 'white' : '#1cbf32'};
-  color:  ${props => props.following ? '#1cbf32' : 'white'};
+const FollowButton = styled.button`
+  background: ${props => (props.following ? 'white' : '#1cbf32')};
+  color: ${props => (props.following ? '#1cbf32' : 'white')};
   border: 2px solid #1cbf32;
   width: 65%;
   padding: 0.5rem 1rem;
@@ -71,7 +72,7 @@ const Gallery = styled.section`
 const Image = styled.div`
   width: 300px;
   height: 300px;
-  background-image: url(${(props) => props.image});
+  background-image: url(${props => props.image});
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -91,16 +92,18 @@ const UserProfile = () => {
 
   const { state, dispatch } = useContext(UserContext);
   const { userId } = useParams();
-  const [showfollow,setShowFollow] = useState(state ? !state.following.includes(userId) : true)
+  const [showfollow, setShowFollow] = useState(
+    state ? !state.following.includes(userId) : true
+  );
 
   useEffect(() => {
     fetch(`/user/${userId}`, {
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
+        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
       },
     })
-      .then((res) => res.json())
-      .then((result) => {
+      .then(res => res.json())
+      .then(result => {
         //console.log(result)
 
         setProfile(result);
@@ -108,24 +111,24 @@ const UserProfile = () => {
   }, []);
 
   const followUser = () => {
-    fetch("/follow", {
-      method: "put",
+    fetch('/follow', {
+      method: 'put',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
       },
       body: JSON.stringify({
         followId: userId,
       }),
     })
-      .then((res) => res.json())
-      .then((data) => {
+      .then(res => res.json())
+      .then(data => {
         dispatch({
-          type: "UPDATE",
+          type: 'UPDATE',
           payload: { following: data.following, followers: data.followers },
         });
-        localStorage.setItem("user", JSON.stringify(data));
-        setProfile((prevState) => {
+        localStorage.setItem('user', JSON.stringify(data));
+        setProfile(prevState => {
           return {
             ...prevState,
             user: {
@@ -139,27 +142,27 @@ const UserProfile = () => {
   };
 
   const unfollowUser = () => {
-    fetch("/unfollow", {
-      method: "put",
+    fetch('/unfollow', {
+      method: 'put',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
       },
       body: JSON.stringify({
         unfollowId: userId,
       }),
     })
-      .then((res) => res.json())
-      .then((data) => {
+      .then(res => res.json())
+      .then(data => {
         dispatch({
-          type: "UPDATE",
+          type: 'UPDATE',
           payload: { following: data.following, followers: data.followers },
         });
-        localStorage.setItem("user", JSON.stringify(data));
+        localStorage.setItem('user', JSON.stringify(data));
 
-        setProfile((prevState) => {
+        setProfile(prevState => {
           const newFollower = prevState.user.followers.filter(
-            (item) => item !== data._id
+            item => item !== data._id
           );
           return {
             ...prevState,
@@ -180,47 +183,50 @@ const UserProfile = () => {
         <ProfileWrapper>
           <ProfileHeader>
             <ProfilePicture
-              src="https://images.unsplash.com/photo-1578173257188-2c095b0aef8b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-              alt="profile-pic"
+              src={userProfile.user.pic}
+              alt={userProfile.user.name}
             />
             <ProfileInfo>
-              <h2 style={{ fontSize: "35px", fontWeight: "500" }}>
-                {userProfile ? userProfile.user.name : "loading"}
+              <h2 style={{ fontSize: '35px', fontWeight: '500' }}>
+                {userProfile ? userProfile.user.name : 'loading'}
               </h2>
               <ProfileStats>
-                <div style={{ marginRight: "1rem" }}>
-                  <h3 style={{ fontWeight: "400" }}>
-                    <span style={{ fontWeight: "600" }}>
+                <div style={{ marginRight: '1rem' }}>
+                  <h3 style={{ fontWeight: '400' }}>
+                    <span style={{ fontWeight: '600' }}>
                       {userProfile.posts.length}
-                    </span>{" "}
+                    </span>{' '}
                     posts
                   </h3>
                 </div>
-                <div style={{ marginRight: "1rem" }}>
-                  <h3 style={{ fontWeight: "400" }}>
-                    <span style={{ fontWeight: "600" }}>
+                <div style={{ marginRight: '1rem' }}>
+                  <h3 style={{ fontWeight: '400' }}>
+                    <span style={{ fontWeight: '600' }}>
                       {userProfile.user.followers.length}
-                    </span>{" "}
+                    </span>{' '}
                     followers
                   </h3>
                 </div>
-                <div style={{ marginRight: "1rem" }}>
-                  <h3 style={{ fontWeight: "400" }}>
-                    <span style={{ fontWeight: "600" }}>
+                <div style={{ marginRight: '1rem' }}>
+                  <h3 style={{ fontWeight: '400' }}>
+                    <span style={{ fontWeight: '600' }}>
                       {userProfile.user.following.length}
-                    </span>{" "}
+                    </span>{' '}
                     following
                   </h3>
                 </div>
               </ProfileStats>
-              {!showfollow ? <FollowButton following onClick={() => unfollowUser()}>Unfollow</FollowButton> 
-              : 
-              <FollowButton onClick={() => followUser()}>Follow</FollowButton>
-              }
+              {!showfollow ? (
+                <FollowButton following onClick={() => unfollowUser()}>
+                  Unfollow
+                </FollowButton>
+              ) : (
+                <FollowButton onClick={() => followUser()}>Follow</FollowButton>
+              )}
             </ProfileInfo>
           </ProfileHeader>
           <Gallery>
-            {userProfile.posts.map((post) => (
+            {userProfile.posts.map(post => (
               <Image image={post.photo} key={post.title}></Image>
             ))}
           </Gallery>

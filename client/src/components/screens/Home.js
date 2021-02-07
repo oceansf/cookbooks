@@ -26,8 +26,13 @@ const Home = () => {
     })
       .then(res => res.json())
       .then(result => {
+        // console.log('mount');
         setData(result.posts);
       });
+    return () => {
+      // console.log('unmount');
+      setData([]);
+    };
   }, []);
 
   return (
