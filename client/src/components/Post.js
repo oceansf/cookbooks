@@ -30,8 +30,8 @@ const HeaderInfo = styled.div`
 `;
 
 const ProfileIcon = styled.img`
-  width: 32px;
-  height: 32px;
+  width: 45px;
+  height: 45px;
   object-fit: cover;
 
   margin-right: 1rem;
@@ -192,18 +192,7 @@ const Post = ({
   const [commentText, setCommentText] = useState('');
   const [commentCount, setCommentCount] = useState(0);
   const [numberOfLikes, setNumberOfLikes] = useState(0);
-
-  // MODAL
   const [modalIsOpen, setIsOpen] = useState(false);
-
-  function openModal() {
-    setIsOpen(true);
-    console.log(modalIsOpen);
-  }
-
-  function closeModal() {
-    setIsOpen(false);
-  }
 
   useEffect(() => {
     setNumberOfLikes(likes.length);
@@ -313,6 +302,14 @@ const Post = ({
     setCommentText('');
   };
 
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
   const PopoutMenu = () => {
     return (
       <Menu onMouseLeave={() => setShowMenu(!setShowMenu)}>
@@ -333,7 +330,7 @@ const Post = ({
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         style={ModalStyles}
-        contentLabel="Example Modal"
+        contentLabel={`${title} Modal`}
       >
         <h2>{title}</h2>
         <button onClick={closeModal}>close</button>

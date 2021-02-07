@@ -1,25 +1,23 @@
 export const initialState = null;
 
 export const reducer = (state, action) => {
-  if (action.type === 'USER') {
-    return action.payload;
+  switch (action.type) {
+    case 'USER':
+      return action.payload;
+    case 'CLEAR':
+      return null;
+    case 'UPDATE':
+      return {
+        ...state,
+        followers: action.payload.followers,
+        following: action.payload.following,
+      };
+    case 'UPDATE_PIC':
+      return {
+        ...state,
+        pic: action.payload,
+      };
+    default:
+      return state;
   }
-  if (action.type === 'CLEAR') {
-    return null;
-  }
-  if (action.type === 'UPDATE') {
-    return {
-      ...state,
-      followers: action.payload.followers,
-      following: action.payload.following,
-    };
-  }
-  // TODO: Let user update profile picture
-  // if (action.type == 'UPDATE PIC') {
-  //   return {
-  //     ...state,
-  //     pic: action.payload,
-  //   };
-  // }
-  return state;
 };

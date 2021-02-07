@@ -155,7 +155,7 @@ const Profile = () => {
                 JSON.stringify({ ...state, pic: result.pic })
               );
               dispatch({ type: 'UPDATEPIC', payload: result.pic });
-              //window.location.reload()
+              window.location.reload();
             });
         })
         .catch(err => {
