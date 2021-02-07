@@ -28,8 +28,7 @@ const Home = () => {
       .then(result => {
         setData(result.posts);
       });
-    return () => {};
-  }, [data]);
+  }, []);
 
   return (
     <React.Fragment>
@@ -43,7 +42,6 @@ const Home = () => {
         {data.map(post => {
           return (
             <Post
-              post={post}
               key={post._id}
               postId={post._id}
               title={post.title}

@@ -160,7 +160,6 @@ const PostCommentButton = styled.button`
 `;
 
 const Post = ({
-  post,
   postId,
   title,
   authorId,

@@ -90,6 +90,7 @@ const MenuWrapper = styled.div`
   position: absolute;
   right: 1rem;
   top: 5rem;
+  z-index: 1;
 `;
 
 const MenuList = styled.ul`
