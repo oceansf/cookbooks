@@ -1,4 +1,10 @@
-import React, { useEffect, createContext, useContext, useReducer } from 'react';
+import React, {
+  useState,
+  useEffect,
+  createContext,
+  useContext,
+  useReducer,
+} from 'react';
 import { reducer, initialState } from './reducers/userReducer';
 import {
   BrowserRouter as Router,
@@ -35,9 +41,9 @@ const Routes = () => {
       dispatch({ type: 'USER', payload: user });
     } else {
       // This makes it so that users cannot view the home page unless they log in or make an account.
-        if (!history.location.pathname.startsWith('/reset')) {
-          history.push('/signin');
-        }
+      if (!history.location.pathname.startsWith('/reset')) {
+        history.push('/signin');
+      }
     }
     //eslint-disable-next-line
   }, []);

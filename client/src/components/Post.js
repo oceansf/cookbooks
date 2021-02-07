@@ -3,6 +3,7 @@ import { UserContext } from '../App';
 import { useHistory, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import toast from 'react-hot-toast';
+import Modal from 'react-modal';
 
 const Card = styled.div`
   width: 614px;
@@ -160,6 +161,19 @@ const PostCommentButton = styled.button`
   font-weight: bold;
 `;
 
+const ModalStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
+
+Modal.setAppElement('#root');
+
 const Post = ({
   postId,
   title,
@@ -177,8 +191,19 @@ const Post = ({
   const [liked, setLiked] = useState(false);
   const [commentText, setCommentText] = useState('');
   const [commentCount, setCommentCount] = useState(0);
-
   const [numberOfLikes, setNumberOfLikes] = useState(0);
+
+  // MODAL
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+    console.log(modalIsOpen);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
 
   useEffect(() => {
     setNumberOfLikes(likes.length);
@@ -302,8 +327,24 @@ const Post = ({
     );
   };
 
+  const RecipeModal = () => {
+    return (
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={ModalStyles}
+        contentLabel="Example Modal"
+      >
+        <h2>{title}</h2>
+        <button onClick={closeModal}>close</button>
+        <p>Recipe Ingredients and Instructions go here...</p>
+      </Modal>
+    );
+  };
+
   return (
     <React.Fragment>
+      <RecipeModal />
       {state && (
         <Card>
           <CardHeader>
@@ -363,18 +404,14 @@ const Post = ({
                     </span>
                   </StarButton>
                 </div>
-                <ViewRecipeButton>View Recipe</ViewRecipeButton>
+                <ViewRecipeButton onClick={() => openModal()}>
+                  View Recipe
+                </ViewRecipeButton>
               </CardButtons>
               <p>
                 <span style={{ fontWeight: '600' }}>{author}</span> {body}
               </p>
               <h4 style={{ color: 'grey' }}>Comments</h4>
-              {/* <p>
-            <span style={{ fontWeight: '600' }}>ocean_fuaga</span> Looks good!
-          </p>
-          <p>
-            <span style={{ fontWeight: '600' }}>gordanramsay</span> I disagree.
-          </p> */}
               {comments.map(comment => {
                 return (
                   <p key={comment._id}>
