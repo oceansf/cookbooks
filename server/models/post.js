@@ -30,6 +30,8 @@ const postSchema = new mongoose.Schema(
         postedBy: { type: ObjectId, ref: 'User' },
       },
     ],
+    ingredients: [{ type: String }],
+    instructions: [{ type: String }],
     postedBy: {
       type: ObjectId,
       ref: 'User',

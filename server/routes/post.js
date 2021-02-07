@@ -18,7 +18,7 @@ router.get('/feed', (req, res) => {
 });
 
 router.post('/createpost', requireLogin, (req, res) => {
-  const { title, body, image } = req.body;
+  const { title, body, image, ingredients, instructions } = req.body;
   if (!title || !body || !image) {
     return res.status(422).json({ error: 'Plase add all the fields' });
   }
@@ -27,6 +27,8 @@ router.post('/createpost', requireLogin, (req, res) => {
     title,
     body,
     photo: image,
+    ingredients,
+    instructions,
     postedBy: req.user,
   });
   post
