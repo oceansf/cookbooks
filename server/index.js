@@ -9,6 +9,7 @@ const MONGO_URI = process.env.MONGO_URI;
 mongoose.connect(MONGO_URI, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
+  useFindAndModify: false,
 });
 mongoose.connection.on('connected', () => {
   console.log('Connected to mongodb');

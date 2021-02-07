@@ -196,7 +196,9 @@ const UserProfile = () => {
                     <span style={{ fontWeight: '600' }}>
                       {userProfile.posts.length}
                     </span>{' '}
-                    posts
+                    <span>
+                      {userProfile.posts.length === 1 ? 'post' : 'posts'}
+                    </span>
                   </h3>
                 </div>
                 <div style={{ marginRight: '1rem' }}>

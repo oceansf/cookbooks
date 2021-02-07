@@ -145,6 +145,7 @@ const CommentForm = styled.form`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  margin-top: 0.5rem;
 `;
 
 const CommentInput = styled.input`
@@ -183,12 +184,6 @@ const Post = ({
     setNumberOfLikes(likes.length);
     checkIfLiked();
   }, [likes, commentCount]);
-
-  const checkIfLiked = () => {
-    if (state && likes.includes(state._id)) {
-      setLiked(true);
-    }
-  };
 
   const likePost = id => {
     setLiked(true);
@@ -281,6 +276,12 @@ const Post = ({
       });
   };
 
+  const checkIfLiked = () => {
+    if (state && likes.includes(state._id)) {
+      setLiked(true);
+    }
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
     makeComment(commentText, postId);
@@ -307,9 +308,15 @@ const Post = ({
         <Card>
           <CardHeader>
             <HeaderInfo>
-              <ProfileIcon src={authorImage} alt={author} />
+              <StyledLink
+                to={
+                  authorId !== state._id ? `/profile/${authorId}` : '/profile'
+                }
+              >
+                <ProfileIcon src={authorImage} alt={author} />
+              </StyledLink>
               <div>
-                <h3 style={{ fontWeight: '500' }}>{title}</h3>
+                <h3 style={{ fontWeight: '500', fontSize: '25px' }}>{title}</h3>
                 <h4>
                   <StyledLink
                     to={

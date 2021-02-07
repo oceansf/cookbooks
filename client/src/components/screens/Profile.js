@@ -198,7 +198,7 @@ const Profile = () => {
                 <div style={{ marginRight: '1rem' }}>
                   <h3 style={{ fontWeight: '400' }}>
                     <span style={{ fontWeight: '600' }}>{mypics.length}</span>{' '}
-                    posts
+                    <span>{mypics.length === 1 ? 'post' : 'posts'}</span>
                   </h3>
                 </div>
                 <div style={{ marginRight: '1rem' }}>
