@@ -79,7 +79,7 @@ const PostRecipeButton = styled.button`
   border-radius: 5px;
   color: white;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 17px;
   background: #24fe41;
   padding: 1rem 1rem;
   margin-top: 2rem;
@@ -166,10 +166,24 @@ const CreatePost = () => {
     setIngredientText('');
   };
 
+  const deleteIngredient = index => {
+    if (index > -1) {
+      ingredients.splice(index, 1);
+    }
+    setIngredients([...ingredients]);
+  };
+
   const addInstruction = e => {
     e.preventDefault();
     setInstructions([...instructions, instructionText]);
     setInstructionText('');
+  };
+
+  const deleteInstruction = index => {
+    if (index > -1) {
+      instructions.splice(index, 1);
+    }
+    setInstructions([...instructions]);
   };
 
   return (
@@ -211,7 +225,17 @@ const CreatePost = () => {
             {ingredients.length > 0 && (
               <ul>
                 {ingredients.map((ingredient, index) => {
-                  return <ListItem key={index}>{ingredient}</ListItem>;
+                  return (
+                    <ListItem key={index}>
+                      {ingredient}
+                      <button
+                        type="button"
+                        onClick={() => deleteIngredient(index)}
+                      >
+                        X
+                      </button>
+                    </ListItem>
+                  );
                 })}
               </ul>
             )}
@@ -234,7 +258,17 @@ const CreatePost = () => {
             {instructions.length > 0 && (
               <ol>
                 {instructions.map((instruction, index) => {
-                  return <ListItem key={index}>{instruction}</ListItem>;
+                  return (
+                    <ListItem key={index}>
+                      {instruction}
+                      <button
+                        type="button"
+                        onClick={() => deleteInstruction(index)}
+                      >
+                        X
+                      </button>
+                    </ListItem>
+                  );
                 })}
               </ol>
             )}

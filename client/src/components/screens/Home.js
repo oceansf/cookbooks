@@ -55,6 +55,8 @@ const Home = () => {
               authorImage={post.postedBy.pic}
               image={post.photo}
               body={post.body}
+              ingredients={post.ingredients}
+              instructions={post.instructions}
               likes={post.likes}
               comments={post.comments}
             />

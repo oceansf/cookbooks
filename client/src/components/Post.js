@@ -26,16 +26,16 @@ const CardHeader = styled.div`
 
 const HeaderInfo = styled.div`
   display: flex;
-  align-items: center;
+  ${'' /* align-items: center; */}
 `;
 
 const ProfileIcon = styled.img`
-  width: 45px;
-  height: 45px;
+  width: 32px;
+  height: 32px;
   object-fit: cover;
 
-  margin-right: 1rem;
-  border: 3px solid #24fe41;
+  margin-right: 0.5rem;
+  border: 2px solid #24fe41;
   border-radius: 100px;
   padding: 2px;
 `;
@@ -162,15 +162,37 @@ const PostCommentButton = styled.button`
 `;
 
 const ModalStyles = {
+  overlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backdropFilter: 'blur(5px)',
+  },
   content: {
+    zIndex: '1',
     top: '50%',
     left: '50%',
     right: 'auto',
     bottom: 'auto',
     marginRight: '-50%',
+    padding: '4rem 0',
     transform: 'translate(-50%, -50%)',
+    width: '375px',
+    borderRadius: '10px',
+    border: 'none',
+    boxShadow: '0px 4px 26px 0px rgba(0, 0, 0, 0.1)',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
 };
+
+const ModalHeader = styled.h2`
+  margin-top: ${props => (props.top ? '0' : '2rem')};
+`;
 
 Modal.setAppElement('#root');
 
@@ -182,6 +204,8 @@ const Post = ({
   authorImage,
   image,
   body,
+  ingredients,
+  instructions,
   likes,
   comments,
 }) => {
@@ -332,9 +356,20 @@ const Post = ({
         style={ModalStyles}
         contentLabel={`${title} Modal`}
       >
-        <h2>{title}</h2>
-        <button onClick={closeModal}>close</button>
-        <p>Recipe Ingredients and Instructions go here...</p>
+        <ModalHeader top>{title}</ModalHeader>
+        <p>{body}</p>
+        <ModalHeader>Ingredients</ModalHeader>
+        <ul>
+          {ingredients.map((ingredient, index) => {
+            return <li key={index}>{ingredient}</li>;
+          })}
+        </ul>
+        <ModalHeader>Instructions</ModalHeader>
+        <ol>
+          {instructions.map((instruction, index) => {
+            return <li key={index}>{instruction}</li>;
+          })}
+        </ol>
       </Modal>
     );
   };
@@ -354,7 +389,7 @@ const Post = ({
                 <ProfileIcon src={authorImage} alt={author} />
               </StyledLink>
               <div>
-                <h3 style={{ fontWeight: '500', fontSize: '25px' }}>{title}</h3>
+                <h3 style={{ fontWeight: '500' }}>{title}</h3>
                 <h4>
                   <StyledLink
                     to={
