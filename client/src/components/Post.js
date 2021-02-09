@@ -198,6 +198,13 @@ const ModalStyles = {
 const ModalHeader = styled.h2`
   margin-top: ${props => (props.top ? '0' : '2rem')};
   font-weight: ${props => (props.title ? '500' : '400')};
+  text-align: center;
+`;
+
+const ModalCaption = styled.p`
+  margin: ${w <= 600 ? '2rem 2rem' : '2rem 4rem'};
+  text-align: center;
+  line-height: 1.6;
 `;
 
 Modal.setAppElement('#root');
@@ -363,7 +370,8 @@ const Post = ({
         <ModalHeader top title>
           {title}
         </ModalHeader>
-        <p>{body}</p>
+        <h3 style={{ marginTop: '1rem' }}>by {author}</h3>
+        <ModalCaption>{body}</ModalCaption>
         <ModalHeader>Ingredients</ModalHeader>
         <ul>
           {ingredients.map((ingredient, index) => {
@@ -378,7 +386,7 @@ const Post = ({
         <ol>
           {instructions.map((instruction, index) => {
             return (
-              <li style={{ margin: '1rem' }} key={index}>
+              <li style={{ margin: '1rem', lineHeight: '1.6' }} key={index}>
                 {instruction}
               </li>
             );
