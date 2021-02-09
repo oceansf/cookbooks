@@ -161,6 +161,8 @@ const PostCommentButton = styled.button`
   font-weight: bold;
 `;
 
+const w = window.innerWidth;
+
 const ModalStyles = {
   overlay: {
     position: 'fixed',
@@ -180,7 +182,10 @@ const ModalStyles = {
     marginRight: '-50%',
     padding: '4rem 0',
     transform: 'translate(-50%, -50%)',
-    width: '375px',
+    maxWidth: w <= 600 ? '375px' : '650px',
+    maxHeight: '600px',
+    overflow: 'auto',
+    WebkitOverflowScrolling: 'touch',
     borderRadius: '10px',
     border: 'none',
     boxShadow: '0px 4px 26px 0px rgba(0, 0, 0, 0.1)',
@@ -192,6 +197,7 @@ const ModalStyles = {
 
 const ModalHeader = styled.h2`
   margin-top: ${props => (props.top ? '0' : '2rem')};
+  font-weight: ${props => (props.title ? '500' : '400')};
 `;
 
 Modal.setAppElement('#root');
@@ -214,14 +220,13 @@ const Post = ({
   const [showMenu, setShowMenu] = useState(false);
   const [liked, setLiked] = useState(false);
   const [commentText, setCommentText] = useState('');
-  const [commentCount, setCommentCount] = useState(0);
   const [numberOfLikes, setNumberOfLikes] = useState(0);
   const [modalIsOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     setNumberOfLikes(likes.length);
     checkIfLiked();
-  }, [likes, commentCount]);
+  }, [likes]);
 
   const likePost = id => {
     setLiked(true);
@@ -291,7 +296,6 @@ const Post = ({
         // });
         // setData(newData);
         toast.success('Comment posted');
-        setCommentCount(comments.length);
       })
       .catch(err => {
         console.log(err);
@@ -356,18 +360,28 @@ const Post = ({
         style={ModalStyles}
         contentLabel={`${title} Modal`}
       >
-        <ModalHeader top>{title}</ModalHeader>
+        <ModalHeader top title>
+          {title}
+        </ModalHeader>
         <p>{body}</p>
         <ModalHeader>Ingredients</ModalHeader>
         <ul>
           {ingredients.map((ingredient, index) => {
-            return <li key={index}>{ingredient}</li>;
+            return (
+              <li style={{ margin: '1rem' }} key={index}>
+                {ingredient}
+              </li>
+            );
           })}
         </ul>
         <ModalHeader>Instructions</ModalHeader>
         <ol>
           {instructions.map((instruction, index) => {
-            return <li key={index}>{instruction}</li>;
+            return (
+              <li style={{ margin: '1rem' }} key={index}>
+                {instruction}
+              </li>
+            );
           })}
         </ol>
       </Modal>
