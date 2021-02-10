@@ -226,15 +226,20 @@ const CreatePost = () => {
               <ul>
                 {ingredients.map((ingredient, index) => {
                   return (
-                    <ListItem key={index}>
-                      {ingredient}
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <ListItem key={index}>{ingredient}</ListItem>
                       <button
                         type="button"
                         onClick={() => deleteIngredient(index)}
                       >
                         X
                       </button>
-                    </ListItem>
+                    </div>
                   );
                 })}
               </ul>
@@ -259,15 +264,20 @@ const CreatePost = () => {
               <ol>
                 {instructions.map((instruction, index) => {
                   return (
-                    <ListItem key={index}>
-                      {instruction}
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <ListItem key={index}>{instruction}</ListItem>
                       <button
                         type="button"
                         onClick={() => deleteInstruction(index)}
                       >
                         X
                       </button>
-                    </ListItem>
+                    </div>
                   );
                 })}
               </ol>

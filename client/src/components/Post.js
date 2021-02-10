@@ -26,7 +26,6 @@ const CardHeader = styled.div`
 
 const HeaderInfo = styled.div`
   display: flex;
-  ${'' /* align-items: center; */}
 `;
 
 const ProfileIcon = styled.img`
@@ -195,6 +194,13 @@ const ModalStyles = {
   },
 };
 
+const CloseModalButton = styled.button`
+  color: lightgrey;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+`;
+
 const ModalHeader = styled.h2`
   margin-top: ${props => (props.top ? '0' : '2rem')};
   font-weight: ${props => (props.title ? '500' : '400')};
@@ -293,15 +299,7 @@ const Post = ({
     })
       .then(res => res.json())
       .then(result => {
-        console.log(result);
-        // const newData = data.map(item => {
-        //   if (item._id == result._id) {
-        //     return result;
-        //   } else {
-        //     return item;
-        //   }
-        // });
-        // setData(newData);
+        // console.log(result);
         toast.success('Comment posted');
       })
       .catch(err => {
@@ -367,6 +365,9 @@ const Post = ({
         style={ModalStyles}
         contentLabel={`${title} Modal`}
       >
+        <CloseModalButton onClick={() => closeModal()}>
+          <i className="fas fa-times fa-lg"></i>
+        </CloseModalButton>
         <ModalHeader top title>
           {title}
         </ModalHeader>
@@ -386,7 +387,13 @@ const Post = ({
         <ol>
           {instructions.map((instruction, index) => {
             return (
-              <li style={{ margin: '1rem', lineHeight: '1.6' }} key={index}>
+              <li
+                style={{
+                  margin: w <= 600 ? '1rem' : '1rem 4rem',
+                  lineHeight: '1.6',
+                }}
+                key={index}
+              >
                 {instruction}
               </li>
             );
