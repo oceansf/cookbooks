@@ -204,7 +204,9 @@ const Profile = () => {
                 <div style={{ marginRight: '1rem' }}>
                   <h3 style={{ fontWeight: '400' }}>
                     <span style={{ fontWeight: '600' }}>
-                      {state.followers > 0 ? state.followers : '0'}
+                      {state.followers.length > 0
+                        ? state.followers.length
+                        : '0'}
                     </span>{' '}
                     followers
                   </h3>
@@ -212,7 +214,9 @@ const Profile = () => {
                 <div style={{ marginRight: '1rem' }}>
                   <h3 style={{ fontWeight: '400' }}>
                     <span style={{ fontWeight: '600' }}>
-                      {state.followers > 0 ? state.followers : '0'}
+                      {state.followers.length > 0
+                        ? state.followers.length
+                        : '0'}
                     </span>{' '}
                     following
                   </h3>
