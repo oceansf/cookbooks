@@ -106,7 +106,7 @@ const CardImage = styled.img`
   object-position: 50% 50%;
 
   @media only screen and (max-width: 600px) {
-    width: 375px;
+    width: 100%;
     height: 375px;
   }
 `;
@@ -460,9 +460,9 @@ const Post = ({
                     }}
                   >
                     {liked ? (
-                      <StarIcon className="fas fa-star fa-lg" liked={liked} />
+                      <StarIcon className="fas fa-star fa-2x" liked={liked} />
                     ) : (
-                      <StarIcon className="far fa-star fa-lg" />
+                      <StarIcon className="far fa-star fa-2x" />
                     )}
                     <span>
                       {" "}

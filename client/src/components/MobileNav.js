@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Navbar = styled.nav`
   width: 100%;
@@ -28,23 +28,7 @@ const Wrapper = styled.div`
 const NavButton = styled.button`
   border: none;
   background: none;
-  ${props =>
-    props.primary &&
-    `
-      background:
-      -webkit-linear-gradient(#fdfc47, #24fe41);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    `}
-  ${props =>
-    props.favorites &&
-    `
-      background:
-      -webkit-linear-gradient(#fceabb, #f8b500);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    `}
-  color: ${props => props.color};
+  color: ${(props) => props.color};
   cursor: pointer;
   :focus {
     outline: none;
@@ -55,16 +39,16 @@ const MobileNav = () => {
   return (
     <Navbar>
       <Wrapper>
-        <NavButton color="gold" favorites>
+        <NavButton color="gold">
           <i className="fas fa-star fa-2x"></i>
         </NavButton>
-        <NavButton color="#24fe41" primary>
-          <Link to="/createpost">
+        <NavButton>
+          <Link to="/createpost" style={{ color: "#24fe41" }}>
             <i className="fas fa-plus-circle fa-4x"></i>
           </Link>
         </NavButton>
         <NavButton color="grey">
-          <Link to="/profile" style={{ color: 'black' }}>
+          <Link to="/profile" style={{ color: "black" }}>
             <i className="far fa-user-circle fa-2x"></i>
           </Link>
         </NavButton>
