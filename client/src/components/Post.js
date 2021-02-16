@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { UserContext } from '../App';
-import { useHistory, Link } from 'react-router-dom';
-import styled from 'styled-components';
-import toast from 'react-hot-toast';
-import Modal from 'react-modal';
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from "../App";
+import { useHistory, Link } from "react-router-dom";
+import styled from "styled-components";
+import toast from "react-hot-toast";
+import Modal from "react-modal";
 
 const Card = styled.div`
   width: 614px;
@@ -41,7 +41,7 @@ const ProfileIcon = styled.img`
 
 const MenuIconButton = styled.div`
   cursor: pointer;
-  color: ${props => (props.showMenu ? 'grey' : 'darkgrey')};
+  color: ${(props) => (props.showMenu ? "grey" : "darkgrey")};
   padding: 0 1rem;
 
   transition: all 0.3s ease;
@@ -50,6 +50,7 @@ const MenuIconButton = styled.div`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: black;
+  font-size: 14px;
 
   &:focus,
   &:hover,
@@ -105,7 +106,8 @@ const CardImage = styled.img`
   object-position: 50% 50%;
 
   @media only screen and (max-width: 600px) {
-    width: 100%;
+    width: 375px;
+    height: 375px;
   }
 `;
 
@@ -125,7 +127,7 @@ const StarButton = styled.button`
 `;
 
 const StarIcon = styled.i`
-  color: ${props => (props.liked ? 'gold' : 'darkgrey')};
+  color: ${(props) => (props.liked ? "gold" : "darkgrey")};
   transition: all 0.3s ease;
   :hover {
     color: gold;
@@ -144,7 +146,7 @@ const ViewRecipeButton = styled.button`
 const CommentForm = styled.form`
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
   margin-top: 0.5rem;
 `;
 
@@ -158,39 +160,41 @@ const CommentInput = styled.input`
 const PostCommentButton = styled.button`
   color: #24fe41;
   font-weight: bold;
+  font-size: 14px;
+  padding-right: 1rem;
 `;
 
 const w = window.innerWidth;
 
 const ModalStyles = {
   overlay: {
-    position: 'fixed',
+    position: "fixed",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
-    backdropFilter: 'blur(5px)',
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
+    backdropFilter: "blur(5px)",
   },
   content: {
-    zIndex: '1',
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    padding: '4rem 0',
-    transform: 'translate(-50%, -50%)',
-    maxWidth: w <= 600 ? '375px' : '650px',
-    maxHeight: '600px',
-    overflow: 'auto',
-    WebkitOverflowScrolling: 'touch',
-    borderRadius: '10px',
-    border: 'none',
-    boxShadow: '0px 4px 26px 0px rgba(0, 0, 0, 0.1)',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    zIndex: "1",
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    padding: "4rem 0",
+    transform: "translate(-50%, -50%)",
+    maxWidth: w <= 600 ? "375px" : "650px",
+    maxHeight: "600px",
+    overflow: "auto",
+    WebkitOverflowScrolling: "touch",
+    borderRadius: "10px",
+    border: "none",
+    boxShadow: "0px 4px 26px 0px rgba(0, 0, 0, 0.1)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
 };
 
@@ -202,18 +206,18 @@ const CloseModalButton = styled.button`
 `;
 
 const ModalHeader = styled.h2`
-  margin-top: ${props => (props.top ? '0' : '2rem')};
-  font-weight: ${props => (props.title ? '500' : '400')};
+  margin-top: ${(props) => (props.top ? "0" : "2rem")};
+  font-weight: ${(props) => (props.title ? "500" : "400")};
   text-align: center;
 `;
 
 const ModalCaption = styled.p`
-  margin: ${w <= 600 ? '2rem 2rem' : '2rem 4rem'};
+  margin: ${w <= 600 ? "2rem 2rem" : "2rem 4rem"};
   text-align: center;
   line-height: 1.6;
 `;
 
-Modal.setAppElement('#root');
+Modal.setAppElement("#root");
 
 const Post = ({
   postId,
@@ -228,97 +232,98 @@ const Post = ({
   likes,
   comments,
 }) => {
-  const { state, dispatch } = useContext(UserContext);
+  const { state } = useContext(UserContext);
   const history = useHistory();
   const [showMenu, setShowMenu] = useState(false);
   const [liked, setLiked] = useState(false);
-  const [commentText, setCommentText] = useState('');
+  const [commentText, setCommentText] = useState("");
   const [numberOfLikes, setNumberOfLikes] = useState(0);
   const [modalIsOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     setNumberOfLikes(likes.length);
     checkIfLiked();
+    //eslint-disable-next-line
   }, [likes]);
 
-  const likePost = id => {
+  const likePost = (id) => {
     setLiked(true);
-    fetch('/like', {
-      method: 'put',
+    fetch("/like", {
+      method: "put",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
       body: JSON.stringify({
         postId: id,
       }),
     })
-      .then(res => res.json())
-      .then(result => {
+      .then((res) => res.json())
+      .then((result) => {
         // console.log(result);
         setNumberOfLikes(result.likes.length);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  const unlikePost = id => {
+  const unlikePost = (id) => {
     setLiked(false);
-    fetch('/unlike', {
-      method: 'put',
+    fetch("/unlike", {
+      method: "put",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
       body: JSON.stringify({
         postId: id,
       }),
     })
-      .then(res => res.json())
-      .then(result => {
+      .then((res) => res.json())
+      .then((result) => {
         // console.log(result);
         setNumberOfLikes(result.likes.length);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
   const makeComment = (text, postId) => {
-    fetch('/comment', {
-      method: 'put',
+    fetch("/comment", {
+      method: "put",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
       body: JSON.stringify({
         postId,
         text,
       }),
     })
-      .then(res => res.json())
-      .then(result => {
+      .then((res) => res.json())
+      .then((result) => {
         // console.log(result);
-        toast.success('Comment posted');
+        toast.success("Comment posted");
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  const deletePost = postId => {
+  const deletePost = (postId) => {
     fetch(`/deletepost/${postId}`, {
-      method: 'delete',
+      method: "delete",
       headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     })
-      .then(res => res.json())
-      .then(result => {
+      .then((res) => res.json())
+      .then((result) => {
         history.go(0);
-        toast('Recipe successfully deleted', {
-          icon: '🔪',
+        toast("Recipe successfully deleted", {
+          icon: "🔪",
         });
       });
   };
@@ -329,10 +334,10 @@ const Post = ({
     }
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     makeComment(commentText, postId);
-    setCommentText('');
+    setCommentText("");
   };
 
   function openModal() {
@@ -371,13 +376,13 @@ const Post = ({
         <ModalHeader top title>
           {title}
         </ModalHeader>
-        <h3 style={{ marginTop: '1rem' }}>by {author}</h3>
+        <h3 style={{ marginTop: "1rem" }}>by {author}</h3>
         <ModalCaption>{body}</ModalCaption>
         <ModalHeader>Ingredients</ModalHeader>
         <ul>
           {ingredients.map((ingredient, index) => {
             return (
-              <li style={{ margin: '1rem' }} key={index}>
+              <li style={{ margin: "1rem" }} key={index}>
                 {ingredient}
               </li>
             );
@@ -389,8 +394,8 @@ const Post = ({
             return (
               <li
                 style={{
-                  margin: w <= 600 ? '1rem' : '1rem 4rem',
-                  lineHeight: '1.6',
+                  margin: w <= 600 ? "1rem" : "1rem 4rem",
+                  lineHeight: "1.6",
                 }}
                 key={index}
               >
@@ -412,19 +417,19 @@ const Post = ({
             <HeaderInfo>
               <StyledLink
                 to={
-                  authorId !== state._id ? `/profile/${authorId}` : '/profile'
+                  authorId !== state._id ? `/profile/${authorId}` : "/profile"
                 }
               >
                 <ProfileIcon src={authorImage} alt={author} />
               </StyledLink>
               <div>
-                <h3 style={{ fontWeight: '500' }}>{title}</h3>
+                <h4 style={{ fontWeight: "500" }}>{title}</h4>
                 <h4>
                   <StyledLink
                     to={
                       authorId !== state._id
                         ? `/profile/${authorId}`
-                        : '/profile'
+                        : "/profile"
                     }
                   >
                     {author}
@@ -448,20 +453,20 @@ const Post = ({
             <CardImage src={`${image}`} alt="steak" />
             <CardBody>
               <CardButtons>
-                <div style={{ margin: '0.5rem 0' }}>
+                <div style={{ margin: "0.5rem 0" }}>
                   <StarButton
                     onClick={() => {
                       liked ? unlikePost(postId) : likePost(postId);
                     }}
                   >
                     {liked ? (
-                      <StarIcon className="fas fa-star fa-2x" liked={liked} />
+                      <StarIcon className="fas fa-star fa-lg" liked={liked} />
                     ) : (
-                      <StarIcon className="far fa-star fa-2x" />
+                      <StarIcon className="far fa-star fa-lg" />
                     )}
-                    <span style={{ fontSize: '1rem' }}>
-                      {' '}
-                      {numberOfLikes} {numberOfLikes === 1 ? 'Star' : 'Stars'}
+                    <span>
+                      {" "}
+                      {numberOfLikes} {numberOfLikes === 1 ? "Star" : "Stars"}
                     </span>
                   </StarButton>
                 </div>
@@ -470,25 +475,25 @@ const Post = ({
                 </ViewRecipeButton>
               </CardButtons>
               <p>
-                <span style={{ fontWeight: '600' }}>{author}</span> {body}
+                <span style={{ fontWeight: "600" }}>{author}</span> {body}
               </p>
-              <h4 style={{ color: 'grey' }}>Comments</h4>
-              {comments.map(comment => {
+              <span style={{ color: "grey" }}>Comments</span>
+              {comments.map((comment) => {
                 return (
                   <p key={comment._id}>
-                    <span style={{ fontWeight: '600' }}>
-                      {comment.postedBy.name}{' '}
+                    <span style={{ fontWeight: "600" }}>
+                      {comment.postedBy.name}{" "}
                     </span>
                     {comment.text}
                   </p>
                 );
               })}
-              <CommentForm onSubmit={e => handleSubmit(e)}>
+              <CommentForm onSubmit={(e) => handleSubmit(e)}>
                 <CommentInput
                   type="text"
                   placeholder="Add comment..."
                   value={commentText}
-                  onChange={e => setCommentText(e.target.value)}
+                  onChange={(e) => setCommentText(e.target.value)}
                 />
                 <PostCommentButton type="submit">POST</PostCommentButton>
               </CommentForm>

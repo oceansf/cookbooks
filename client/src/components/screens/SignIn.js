@@ -1,8 +1,8 @@
-import React, { useState, useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import styled from 'styled-components';
-import { toast } from 'react-hot-toast';
-import { UserContext } from '../../App';
+import React, { useState, useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
+import styled from "styled-components";
+import { toast } from "react-hot-toast";
+import { UserContext } from "../../App";
 
 const Container = styled.div`
   height: 100vh;
@@ -55,10 +55,10 @@ const Button = styled.button`
 `;
 
 const SignIn = () => {
-  const { state, dispatch } = useContext(UserContext);
+  const { dispatch } = useContext(UserContext);
   const history = useHistory();
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
   const signInUser = () => {
     if (
@@ -67,37 +67,37 @@ const SignIn = () => {
         email
       )
     ) {
-      toast.error('invalid email format');
+      toast.error("invalid email format");
       return;
     }
-    fetch('/signin', {
-      method: 'post',
+    fetch("/signin", {
+      method: "post",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         password,
         email,
       }),
     })
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         if (data.error) {
           toast.error(data.error);
         } else {
-          localStorage.setItem('jwt', data.token);
-          localStorage.setItem('user', JSON.stringify(data.user));
-          dispatch({ type: 'USER', payload: data.user });
-          toast.success('Welcome back!');
-          history.push('/');
+          localStorage.setItem("jwt", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user));
+          dispatch({ type: "USER", payload: data.user });
+          toast.success("Welcome back!");
+          history.push("/");
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     signInUser();
   };
@@ -106,18 +106,18 @@ const SignIn = () => {
     <Container>
       <Card>
         <h1>Cookbooks</h1>
-        <Form onSubmit={e => onSubmit(e)}>
+        <Form onSubmit={(e) => onSubmit(e)}>
           <Input
             type="text"
             name="email"
             placeholder="Email"
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <Input
             type="password"
             name="password"
             placeholder="Password"
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <Button type="submit">Log In</Button>
         </Form>

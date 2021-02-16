@@ -1,5 +1,5 @@
 // globalStyles.js
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
   h1 {
@@ -36,7 +36,12 @@ const GlobalStyle = createGlobalStyle`
   }
 
   p {
-    margin: 0.5rem 0;
+    margin: 0.25rem 0;
+    font-size: 14px;
+  }
+
+  span {
+    font-size: 14px;
   }
 
 `;

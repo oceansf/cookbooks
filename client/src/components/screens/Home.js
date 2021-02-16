@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useContext } from 'react';
-import styled from 'styled-components';
-import useWindowSize from '../../hooks/useWindowSize';
-import { UserContext } from '../../App';
+import React, { useEffect, useState, useContext } from "react";
+import styled from "styled-components";
+import useWindowSize from "../../hooks/useWindowSize";
+import { UserContext } from "../../App";
 
-import Nav from '../Nav';
-import MobileNav from '../MobileNav';
-import Post from '../Post';
+import Nav from "../Nav";
+import MobileNav from "../MobileNav";
+import Post from "../Post";
 
 const Container = styled.div`
   display: flex;
@@ -14,18 +14,18 @@ const Container = styled.div`
 `;
 
 const Home = () => {
-  const { state, dispatch } = useContext(UserContext);
+  const { state } = useContext(UserContext);
   const size = useWindowSize();
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch('/feed', {
+    fetch("/feed", {
       headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     })
-      .then(res => res.json())
-      .then(result => {
+      .then((res) => res.json())
+      .then((result) => {
         // console.log('mount');
         setData(result.posts);
       });
@@ -39,12 +39,12 @@ const Home = () => {
     <React.Fragment>
       <Nav />
       {!state && (
-        <h4 style={{ marginTop: '4rem' }}>
+        <h4 style={{ marginTop: "4rem" }}>
           Sign in or create an account to view recipes!
         </h4>
       )}
       <Container>
-        {data.map(post => {
+        {data.map((post) => {
           return (
             <Post
               key={post._id}

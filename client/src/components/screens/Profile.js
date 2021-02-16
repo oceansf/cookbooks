@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
-import styled from 'styled-components';
-import { UserContext } from '../../App';
-import Nav from '../Nav';
+import React, { useState, useEffect, useContext } from "react";
+import styled from "styled-components";
+import { UserContext } from "../../App";
+import Nav from "../Nav";
 
 const ProfileWrapper = styled.div`
   width: 975px;
@@ -45,7 +45,7 @@ const ProfileImageUpload = styled.input`
   }
   :before {
     color: black;
-    content: 'Edit Profile Image';
+    content: "Edit Profile Image";
     display: inline-block;
     background: linear-gradient(top, #f9f9f9, #e3e3e3);
     border: 1px solid #999;
@@ -92,7 +92,7 @@ const Gallery = styled.section`
 const Image = styled.div`
   width: 300px;
   height: 300px;
-  background-image: url(${props => props.image});
+  background-image: url(${(props) => props.image});
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -110,16 +110,16 @@ const Image = styled.div`
 const Profile = () => {
   const [mypics, setMyPics] = useState([]);
   const { state, dispatch } = useContext(UserContext);
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState("");
 
   useEffect(() => {
-    fetch('/myposts', {
+    fetch("/myposts", {
       headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     })
-      .then(res => res.json())
-      .then(result => {
+      .then((res) => res.json())
+      .then((result) => {
         // console.log(result);
         setMyPics(result.myposts);
       });
@@ -128,43 +128,44 @@ const Profile = () => {
   useEffect(() => {
     if (image) {
       const data = new FormData();
-      data.append('file', image);
-      data.append('upload_preset', 'insta-clone');
-      data.append('cloud_name', 'cnq');
-      fetch('https://api.cloudinary.com/v1_1/oceansf/image/upload', {
-        method: 'post',
+      data.append("file", image);
+      data.append("upload_preset", "insta-clone");
+      data.append("cloud_name", "cnq");
+      fetch("https://api.cloudinary.com/v1_1/oceansf/image/upload", {
+        method: "post",
         body: data,
       })
-        .then(res => res.json())
-        .then(data => {
-          fetch('/updatepic', {
-            method: 'put',
+        .then((res) => res.json())
+        .then((data) => {
+          fetch("/updatepic", {
+            method: "put",
             headers: {
-              'Content-Type': 'application/json',
-              Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("jwt"),
             },
             body: JSON.stringify({
               pic: data.url,
             }),
           })
-            .then(res => res.json())
-            .then(result => {
+            .then((res) => res.json())
+            .then((result) => {
               console.log(result);
               localStorage.setItem(
-                'user',
+                "user",
                 JSON.stringify({ ...state, pic: result.pic })
               );
-              dispatch({ type: 'UPDATE_PIC', payload: result.pic });
+              dispatch({ type: "UPDATE_PIC", payload: result.pic });
               window.location.reload();
             });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     }
+    //eslint-disable-next-line
   }, [image]);
 
-  const updatePhoto = file => {
+  const updatePhoto = (file) => {
     setImage(file);
   };
 
@@ -176,48 +177,50 @@ const Profile = () => {
           <ProfileHeader>
             <div
               style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
               }}
             >
               <ProfilePicture
-                src={state ? state.pic : 'Loading...'}
+                src={state ? state.pic : "Loading..."}
                 alt="profile-pic"
               />
               <ProfileImageUpload
                 type="file"
-                onChange={e => updatePhoto(e.target.files[0])}
+                onChange={(e) => updatePhoto(e.target.files[0])}
               />
             </div>
             <ProfileInfo>
-              <h2 style={{ fontSize: '35px', fontWeight: '500' }}>
-                {state ? state.name : 'loading'}
+              <h2 style={{ fontSize: "35px", fontWeight: "500" }}>
+                {state ? state.name : "loading"}
               </h2>
               <ProfileStats>
-                <div style={{ marginRight: '1rem' }}>
-                  <h3 style={{ fontWeight: '400' }}>
-                    <span style={{ fontWeight: '600' }}>{mypics.length}</span>{' '}
-                    <span>{mypics.length === 1 ? 'post' : 'posts'}</span>
+                <div style={{ marginRight: "1rem" }}>
+                  <h3 style={{ fontWeight: "400" }}>
+                    <span style={{ fontSize: "1rem", fontWeight: "600" }}>
+                      {mypics.length}
+                    </span>{" "}
+                    {mypics.length === 1 ? "post" : "posts"}
                   </h3>
                 </div>
-                <div style={{ marginRight: '1rem' }}>
-                  <h3 style={{ fontWeight: '400' }}>
-                    <span style={{ fontWeight: '600' }}>
+                <div style={{ marginRight: "1rem" }}>
+                  <h3 style={{ fontWeight: "400" }}>
+                    <span style={{ fontSize: "1rem", fontWeight: "600" }}>
                       {state.followers.length > 0
                         ? state.followers.length
-                        : '0'}
-                    </span>{' '}
-                    followers
+                        : "0"}
+                    </span>{" "}
+                    {state.followers.length === 1 ? "follower" : "followers"}
                   </h3>
                 </div>
-                <div style={{ marginRight: '1rem' }}>
-                  <h3 style={{ fontWeight: '400' }}>
-                    <span style={{ fontWeight: '600' }}>
+                <div style={{ marginRight: "1rem" }}>
+                  <h3 style={{ fontWeight: "400" }}>
+                    <span style={{ fontSize: "1rem", fontWeight: "600" }}>
                       {state.followers.length > 0
                         ? state.followers.length
-                        : '0'}
-                    </span>{' '}
+                        : "0"}
+                    </span>{" "}
                     following
                   </h3>
                 </div>
@@ -225,7 +228,7 @@ const Profile = () => {
             </ProfileInfo>
           </ProfileHeader>
           <Gallery>
-            {mypics.map(post => (
+            {mypics.map((post) => (
               <Image image={post.photo} key={post.title}></Image>
             ))}
           </Gallery>

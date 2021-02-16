@@ -1,27 +1,21 @@
-import React, {
-  useState,
-  useEffect,
-  createContext,
-  useContext,
-  useReducer,
-} from 'react';
-import { reducer, initialState } from './reducers/userReducer';
+import React, { useEffect, createContext, useContext, useReducer } from "react";
+import { reducer, initialState } from "./reducers/userReducer";
 import {
   BrowserRouter as Router,
   Route,
   Switch,
   useHistory,
-} from 'react-router-dom';
-import styled from 'styled-components';
-import GlobalStyle from './GlobalStyle';
+} from "react-router-dom";
+import styled from "styled-components";
+import GlobalStyle from "./GlobalStyle";
 
-import Home from './components/screens/Home';
-import SignIn from './components/screens/SignIn';
-import SignUp from './components/screens/SignUp';
-import Profile from './components/screens/Profile';
-import UserProfile from './components/screens/UserProfile';
-import { Toaster } from 'react-hot-toast';
-import CreatePost from './components/screens/CreatePost';
+import Home from "./components/screens/Home";
+import SignIn from "./components/screens/SignIn";
+import SignUp from "./components/screens/SignUp";
+import Profile from "./components/screens/Profile";
+import UserProfile from "./components/screens/UserProfile";
+import { Toaster } from "react-hot-toast";
+import CreatePost from "./components/screens/CreatePost";
 
 const Container = styled.div`
   display: flex;
@@ -36,13 +30,13 @@ const Routes = () => {
   const { dispatch } = useContext(UserContext);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
-      dispatch({ type: 'USER', payload: user });
+      dispatch({ type: "USER", payload: user });
     } else {
       // This makes it so that users cannot view the home page unless they log in or make an account.
-      if (!history.location.pathname.startsWith('/reset')) {
-        history.push('/signin');
+      if (!history.location.pathname.startsWith("/reset")) {
+        history.push("/signin");
       }
     }
     //eslint-disable-next-line

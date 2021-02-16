@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { UserContext } from '../App';
-import styled from 'styled-components';
-import useWindowSize from '../hooks/useWindowSize';
-import { Squash as Hamburger } from 'hamburger-react';
-import toast from 'react-hot-toast';
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { UserContext } from "../App";
+import styled from "styled-components";
+import useWindowSize from "../hooks/useWindowSize";
+import { Squash as Hamburger } from "hamburger-react";
+import toast from "react-hot-toast";
 
 const Navbar = styled.nav`
   width: 100%;
@@ -44,7 +44,7 @@ const Logo = styled.h2`
   background: -webkit-linear-gradient(#fdfc47, #24fe41);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-family: 'Pacifico', cursive;
+  font-family: "Pacifico", cursive;
   margin: 0;
 `;
 
@@ -53,7 +53,7 @@ const LinkList = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-  padding: ${props => (props.secondary ? '0' : '1rem')};
+  padding: ${(props) => (props.secondary ? "0" : "1rem")};
   text-decoration: none;
   color: black;
   transition: all 0.3s ease;
@@ -78,7 +78,7 @@ const OpenMenuButton = styled.div`
   cursor: pointer;
   border-left: 1px solid lightgrey;
   padding-left: 1rem;
-  color: ${props => (props.isOpen ? '#24fe41' : 'black')};
+  color: ${(props) => (props.isOpen ? "#24fe41" : "black")};
   transition: all 0.3s ease;
 `;
 
@@ -104,9 +104,9 @@ const MenuItem = styled.li`
   cursor: pointer;
   transition: all 0.3s ease;
   color: black;
-  border-radius: ${props => props.top && '10px 10px 0 0'};
-  border-radius: ${props => props.middle && '0'};
-  border-radius: ${props => props.bottom && '0 0 10px 10px'};
+  border-radius: ${(props) => props.top && "10px 10px 0 0"};
+  border-radius: ${(props) => props.middle && "0"};
+  border-radius: ${(props) => props.bottom && "0 0 10px 10px"};
 
   :hover {
     background: #f5f5f5;
@@ -114,7 +114,7 @@ const MenuItem = styled.li`
 `;
 
 const Nav = () => {
-  const { state, dispatch } = useContext(UserContext);
+  const { dispatch } = useContext(UserContext);
   const history = useHistory();
   const size = useWindowSize();
   //TODO: show auth links only when user isn't logged in
@@ -127,7 +127,7 @@ const Nav = () => {
   }, []);
 
   const checkLogIn = () => {
-    if (localStorage.getItem('jwt')) {
+    if (localStorage.getItem("jwt")) {
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
@@ -136,12 +136,12 @@ const Nav = () => {
 
   const LogOut = () => {
     localStorage.clear();
-    dispatch({ type: 'CLEAR' });
-    history.push('/signin');
+    dispatch({ type: "CLEAR" });
+    history.push("/signin");
     setIsLoggedIn(false);
     setIsMenuOpen(false);
-    toast('See you soon!', {
-      icon: '👋',
+    toast("See you soon!", {
+      icon: "👋",
     });
   };
 
