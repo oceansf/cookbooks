@@ -8,13 +8,15 @@ import {
 } from "react-router-dom";
 import styled from "styled-components";
 import GlobalStyle from "./GlobalStyle";
+import { Toaster } from "react-hot-toast";
 
 import Home from "./components/screens/Home";
 import SignIn from "./components/screens/SignIn";
 import SignUp from "./components/screens/SignUp";
+import Reset from "./components/screens/Reset";
+import NewPassword from "./components/screens/NewPassword";
 import Profile from "./components/screens/Profile";
 import UserProfile from "./components/screens/UserProfile";
-import { Toaster } from "react-hot-toast";
 import CreatePost from "./components/screens/CreatePost";
 
 const Container = styled.div`
@@ -47,6 +49,8 @@ const Routes = () => {
       <Route exact path="/" component={Home} />
       <Route exact path="/signin" component={SignIn} />
       <Route exact path="/signup" component={SignUp} />
+      <Route exact path="/reset" component={Reset} />
+      <Route exact path="/reset/:token" component={NewPassword} />
       <Route exact path="/profile" component={Profile} />
       <Route exact path="/profile/:userId" component={UserProfile} />
       <Route exact path="/createPost" component={CreatePost} />

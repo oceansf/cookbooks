@@ -1,8 +1,7 @@
-import React, { useState, useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { toast } from "react-hot-toast";
-import { UserContext } from "../../App";
+import toast from "react-hot-toast";
 
 const Container = styled.div`
   height: 100vh;
@@ -55,78 +54,48 @@ const Button = styled.button`
 `;
 
 const SignIn = () => {
-  const { dispatch } = useContext(UserContext);
   const history = useHistory();
   const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const { token } = useParams();
 
-  const signInUser = () => {
-    if (
-      //eslint-disable-next-line
-      !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-        email
-      )
-    ) {
-      toast.error("invalid email format");
-      return;
-    }
-    fetch("/signin", {
+  const PostData = () => {
+    fetch("/new-password", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         password,
-        email,
+        token,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         if (data.error) {
-          toast.error(data.error);
+          toast.error(`${data.error}`);
         } else {
-          localStorage.setItem("jwt", data.token);
-          localStorage.setItem("user", JSON.stringify(data.user));
-          dispatch({ type: "USER", payload: data.user });
-          toast.success("Welcome back!");
-          history.push("/");
+          toast.error(`${data.message}`);
+          history.push("/signin");
         }
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    signInUser();
-  };
-
   return (
     <Container>
       <Card>
         <h1>Cookbooks</h1>
-        <Form onSubmit={(e) => onSubmit(e)}>
-          <Input
-            type="text"
-            name="email"
-            placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
+        <Form>
           <Input
             type="password"
-            name="password"
-            placeholder="Password"
+            placeholder="Enter a new password"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button type="submit">Log In</Button>
+          <Button onClick={() => PostData()}>Update Password</Button>
         </Form>
-        <p>
-          Don't have an account? <Link to="/signup">Sign up here.</Link>
-        </p>
-        <p>
-          <Link to="/reset">Forgot password ?</Link>
-        </p>
       </Card>
     </Container>
   );
